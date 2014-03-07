@@ -8,7 +8,7 @@ several of the JSON attributes in the API and the fact that the server
 consuming the JSON is not written in Java, this library does not support
 turning a job definition into any Java-sensible object.
 
-##The Blitline pipeline
+###The Blitline pipeline
 
 A Blitline job starts by retrieving a single source image and applying a
 number of transformations (functions) to it in a manner very similar to an
@@ -24,11 +24,11 @@ The output of any function node may be saved, and the output of each leaf
 node *must* be saved (Blitline will refuse to execute operations whose results
 are thrown away).
 
-##Technical notes
+###Technical notes
 
 The `Function` class contains static convenience wrappers for the constructors
 for all of the Blitline image functions. As intentional technical debt, these
 wrappers are currently maintained by hand because working around
-[MCOMPILER-157](http://jira.codehaus.org/browse/MCOMPILER-157) is more trouble
-than manually updating the directory. **Any updates to the Blitline function
-API will need to be reflected here.**
+[MCOMPILER-157](https://jira.codehaus.org/browse/MCOMPILER-157) is more trouble
+than manually updating the directory. **Any updates to [the Blitline function
+API](https://www.blitline.com/docs/functions) will need to be reflected here.**
