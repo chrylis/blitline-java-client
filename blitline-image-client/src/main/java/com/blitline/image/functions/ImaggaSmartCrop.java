@@ -6,8 +6,7 @@ public class ImaggaSmartCrop extends AbstractFunction {
 		return "imagga_smart_crop";
 	}
 	
-	//FIXME: format
-	ImaggaSmartCrop(int width, int height) {
+	public ImaggaSmartCrop(int width, int height) {
 		params.put("resolution", height + "x" + width);
 	}
 	

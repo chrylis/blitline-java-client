@@ -15,6 +15,10 @@ public class S3Location {
 		this.bucket = bucket;
 		this.key = key;
 	}
+	
+	public static S3Location of(String bucket, String key) {
+		return new S3Location(bucket, key);
+	}
 
 	public String getBucket() {
 		return bucket;

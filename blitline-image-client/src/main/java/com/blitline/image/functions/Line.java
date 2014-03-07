@@ -17,11 +17,14 @@ public class Line extends AbstractFunction {
 		params.put("y1", y2);
 	}
 	
-	//FIXME: color
-	
 	public Line width(int width) {
 		Validate.isTrue(width > 0, "line width must be positive");
 		params.put("width", width);
+		return this;
+	}
+	
+	public Line color(String color) {
+		params.put("color", color);
 		return this;
 	}
 	

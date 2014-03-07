@@ -8,7 +8,7 @@ public class Crop extends AbstractFunction {
 		return "crop";
 	}
 
-	Crop(int width) {
+	public Crop(int width) {
 		Validate.isTrue(width > 0);
 		params.put("width", width);
 	}
