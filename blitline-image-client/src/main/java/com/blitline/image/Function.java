@@ -1,5 +1,6 @@
 package com.blitline.image;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -14,4 +15,12 @@ public interface Function {
 	String getName();
 
 	Map<String, Object> getParams();
+	
+	Collection<Function> getFunctions(); 
+	
+	// returns this
+	Function andSaveResultTo(SavedImage location);
+	
+	// returns this
+	Function thenApply(Function... functions);
 }

@@ -6,5 +6,12 @@ public class BackgroundColor extends AbstractFunction {
 		return "background_color";
 	}
 	
-	//FIXME add color
+	public BackgroundColor color(String color) {
+		params.put("color", color);
+		return this;
+	}
+	
+	public BackgroundColor of(String color) {
+		return color(color);
+	}
 }

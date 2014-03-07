@@ -16,17 +16,26 @@ public class Ellipse extends AbstractFunction {
 		params.put("ellipse_height", height);
 	}
 	
-	// FIXME: stroke and fill color
-	
 	public Ellipse strokeWidth(int strokeWidth) {
 		Validate.isTrue(strokeWidth >= 0);
 		params.put("stroke_width", strokeWidth);
 		return this;
 	}
 	
+	// default white
+	public Ellipse strokeColor(String strokeColor) {
+		params.put("color", strokeColor);
+		return this;
+	}
+	
 	public Ellipse strokeOpacity(double strokeOpacity) {
 		Validate.inclusiveBetween(0., 1., strokeOpacity);
 		params.put("stroke_opacity", strokeOpacity);
+		return this;
+	}
+	
+	public Ellipse fillColor(String fillColor) {
+		params.put("fill_color", fillColor);
 		return this;
 	}
 
