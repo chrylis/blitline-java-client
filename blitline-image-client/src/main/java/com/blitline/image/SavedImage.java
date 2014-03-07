@@ -56,8 +56,16 @@ public class SavedImage {
 			return new SavedImage(imageIdentifier, quality, saveMetadata, s3Destination, null);
 		}
 		
+		public SavedImage toS3(String bucket, String key) {
+			return toS3(S3Location.of(bucket, key));
+		}
+		
 		public SavedImage toAzure(AzureLocation azureDestination) {
 			return new SavedImage(imageIdentifier, quality, saveMetadata, null, azureDestination);
+		}
+		
+		public SavedImage toAzure(String accountName, String sharedAccessSignature) {
+			return toAzure(AzureLocation.of(accountName, sharedAccessSignature));
 		}
 		
 		public SavedImage toBlitlineContainer() {

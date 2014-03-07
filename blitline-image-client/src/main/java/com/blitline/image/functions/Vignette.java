@@ -5,7 +5,7 @@ import org.apache.commons.lang3.Validate;
 public class Vignette extends AbstractGaussianFunction<Vignette> {
 	@Override
 	public String getName() {
-		return "sharpen";
+		return "vignette";
 	}
 	
 	@Override

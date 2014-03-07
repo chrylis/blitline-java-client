@@ -86,6 +86,8 @@ public class Job {
 		private void setSrc(Object src) {
 			if (this.src != null)
 				throw new IllegalStateException("src is already set");
+			
+			this.src = src;
 		}
 
 		/**
