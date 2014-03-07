@@ -1,11 +1,52 @@
 package com.blitline.image;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.commons.lang3.Validate;
 
 public class Job {
-
-	public Job() {
-		// TODO Auto-generated constructor stub
+	
+	private final String applicationId;
+	private final Object src;
+	private final String postbackUrl;
+	private final List<Function> functions = new LinkedList<Function>();
+	
+	public Job(String applicationId, Object src, String postbackUrl) {
+		Validate.notNull(applicationId, "application ID must not be null");
+		this.applicationId = applicationId;
+		
+		Validate.notNull(src,"image source must not be null");
+		this.src = src;
+		
+		this.postbackUrl = postbackUrl;
+	}
+	
+	public String getApplicationId() {
+		return applicationId;
+	}
+	
+	public Object getSrc() {
+		return src;
+	}
+	
+	public String getPostbackUrl() {
+		return postbackUrl;
+	}
+	
+	public List<Function> getFunctions() {
+		return Collections.unmodifiableList(functions);
+	}
+	
+	public void apply(Function... functions) {
+		this.functions.addAll(Arrays.asList(functions));
+	}
+	
+	public static Builder forApplication(String applicationId) {
+		return new Builder(applicationId);
 	}
 
 	/**
@@ -120,8 +161,10 @@ public class Job {
 			return withPostback(postbackUrl.toString());
 		}
 		
-//		public Pipeline start(Pipeline... pipelines) {
-//			
-//		}
+		public Job apply(Function... functions) {
+			Job job = new Job(applicationId, src, postbackUrl);
+			job.apply(functions);
+			return job;
+		}
 	}
 }
