@@ -8,14 +8,14 @@ import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 
-public class Job {
+public class BlitlineImageJob {
 	
 	private final String applicationId;
 	private final Object src;
 	private final String postbackUrl;
 	private final List<Function> functions = new LinkedList<Function>();
 	
-	public Job(String applicationId, Object src, String postbackUrl) {
+	public BlitlineImageJob(String applicationId, Object src, String postbackUrl) {
 		Validate.notNull(applicationId, "application ID must not be null");
 		this.applicationId = applicationId;
 		
@@ -50,7 +50,7 @@ public class Job {
 	}
 
 	/**
-	 * Fluent builder class for a {@link Job} instance.
+	 * Fluent builder class for a {@link BlitlineImageJob} instance.
 	 * 
 	 * @author Christopher Smith
 	 * 
@@ -163,8 +163,8 @@ public class Job {
 			return withPostback(postbackUrl.toString());
 		}
 		
-		public Job apply(Function... functions) {
-			Job job = new Job(applicationId, src, postbackUrl);
+		public BlitlineImageJob apply(Function... functions) {
+			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, postbackUrl);
 			job.apply(functions);
 			return job;
 		}

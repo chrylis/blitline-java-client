@@ -8,7 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.blitline.image.AzureLocation;
-import com.blitline.image.Job;
+import com.blitline.image.BlitlineImageJob;
 import com.blitline.image.S3Location;
 import com.blitline.image.SavedImage;
 import com.blitline.image.functions.params.FontStyle;
@@ -60,7 +60,7 @@ public class TestSerializer {
 		final String targetBucket = "mytargetbucket";
 		final String applicationId = "myAppId";
 
-		Job j = Job.forApplication(applicationId)
+		BlitlineImageJob j = BlitlineImageJob.forApplication(applicationId)
 			.fromUrl("http://cdn.blitline.com/filters/boys.jpeg")
 			.apply(
 				new ResizeToFit(640, 480).doNotUpscale().thenApply(
