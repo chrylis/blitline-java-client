@@ -8,7 +8,7 @@ public class Watermark extends AbstractTextFunction<Watermark> {
 		return "watermark";
 	}
 
-	Watermark(String text) {
+	public Watermark(String text) {
 		super(text);
 	}
 

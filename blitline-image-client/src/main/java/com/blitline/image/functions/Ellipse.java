@@ -8,7 +8,7 @@ public class Ellipse extends AbstractFunction {
 		return "ellipse";
 	}
 	
-	Ellipse(int centerX, int centerY, int width, int height) {
+	public Ellipse(int centerX, int centerY, int width, int height) {
 		Validate.isTrue(width >= 0 && height >= 0, "height and width of ellipse must be positive");
 		params.put("origin_x", centerX);
 		params.put("origin_y", centerY);

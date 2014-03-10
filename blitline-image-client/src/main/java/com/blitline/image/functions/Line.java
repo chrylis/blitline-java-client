@@ -10,7 +10,7 @@ public class Line extends AbstractFunction {
 		return "line";
 	}
 	
-	Line(int x1, int y1, int x2, int y2) {
+	public Line(int x1, int y1, int x2, int y2) {
 		params.put("x", x1);
 		params.put("y", y1);
 		params.put("x1", x2);
