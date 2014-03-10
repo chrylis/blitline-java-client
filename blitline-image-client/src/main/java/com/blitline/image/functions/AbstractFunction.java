@@ -47,6 +47,10 @@ public abstract class AbstractFunction implements Function {
 		return this;
 	}
 	
+	public Function andSaveResult(String imageIdentifier) {
+		return andSaveResultTo(SavedImage.withId(imageIdentifier).toBlitlineContainer());
+	}
+	
 	public SavedImage getSave() {
 		return saveLocation;
 	}
