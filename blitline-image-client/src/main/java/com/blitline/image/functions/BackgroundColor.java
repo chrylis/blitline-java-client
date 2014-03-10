@@ -14,4 +14,8 @@ public class BackgroundColor extends AbstractFunction {
 	public BackgroundColor of(String color) {
 		return color(color);
 	}
+	
+	public BackgroundColor with(String color) {
+		return color(color);
+	}
 }

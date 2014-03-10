@@ -18,6 +18,12 @@ public class Pixelate extends AbstractFunction {
 		return this;		
 	}
 	
+	public Pixelate offset(int xOffset, int yOffset) {
+		params.put("x", xOffset);
+		params.put("y", yOffset);
+		return this;
+	}
+	
 	public Pixelate width(int width) {
 		params.put("width", width);
 		return this;

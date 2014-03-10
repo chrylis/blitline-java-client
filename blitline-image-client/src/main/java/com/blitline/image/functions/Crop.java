@@ -30,6 +30,11 @@ public class Crop extends AbstractFunction {
 		params.put("y", yOffset);
 		return this;
 	}
+	
+	public Crop offset(int xOffset, int yOffset) {
+		xOffset(xOffset);
+		return yOffset(yOffset);
+	}
 
 	public Crop cropSmallerToAspectRatio() {
 		Validate.isTrue(params.containsKey("height"), "aspect-ratio crop requires width and height to be set");

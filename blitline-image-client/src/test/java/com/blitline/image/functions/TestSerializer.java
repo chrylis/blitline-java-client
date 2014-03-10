@@ -45,7 +45,7 @@ public class TestSerializer {
 		System.out.println(json);
 
 		SavedImage save = SavedImage.withId("abcd1234random").withMetadata()
-				.toS3(S3Location.of("my-bucket-name", "abcd1234random.jpg"));
+			.toS3(S3Location.of("my-bucket-name", "abcd1234random.jpg"));
 		System.out.println(mapper.writeValueAsString(save));
 
 		save = SavedImage.withId("4321nonrandom").withQuality(90).toAzure(AzureLocation.of("myAccount", "http://gobbledygook"));
@@ -59,17 +59,16 @@ public class TestSerializer {
 	public void integrationText() throws JsonProcessingException {
 		final String targetBucket = "mytargetbucket";
 		final String applicationId = "myAppId";
-		
-		Job j = Job
-				.forApplication(applicationId)
-				.fromUrl("http://cdn.blitline.com/filters/boys.jpeg")
-				.apply(
-						new ResizeToFit(640, 480).doNotUpscale().thenApply(
-								new Grayscale().andSaveResultTo(SavedImage.withId("foobar-gray").toS3(targetBucket, "grayscale.jpg")),
-								new Vignette().andSaveResultTo(SavedImage.withId("foobar-vignette").toBlitlineContainer())
-						)
-				);
-		
+
+		Job j = Job.forApplication(applicationId)
+			.fromUrl("http://cdn.blitline.com/filters/boys.jpeg")
+			.apply(
+				new ResizeToFit(640, 480).doNotUpscale().thenApply(
+					new Grayscale().andSaveResultTo(SavedImage.withId("foobar-gray").toS3(targetBucket, "grayscale.jpg")),
+					new Vignette().andSaveResultTo(SavedImage.withId("foobar-vignette").toBlitlineContainer())
+					)
+			);
+
 		System.out.println(mapper.writeValueAsString(j));
 	}
 }

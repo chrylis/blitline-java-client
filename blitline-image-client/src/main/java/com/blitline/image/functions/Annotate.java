@@ -5,7 +5,7 @@ import com.blitline.image.functions.params.FontStyle;
 public class Annotate extends AbstractTextFunction<Annotate> {
 	
 	
-	Annotate(String text) {
+	public Annotate(String text) {
 		super(text);
 	}
 	
@@ -25,6 +25,12 @@ public class Annotate extends AbstractTextFunction<Annotate> {
 	}
 	
 	public Annotate yOffset(int yOffset) {
+		params.put("y", yOffset);
+		return this;
+	}
+	
+	public Annotate offset(int xOffset, int yOffset) {
+		params.put("x", xOffset);
 		params.put("y", yOffset);
 		return this;
 	}
