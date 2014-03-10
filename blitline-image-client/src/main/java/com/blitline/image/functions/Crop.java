@@ -30,10 +30,13 @@ public class Crop extends AbstractFunction {
 		params.put("y", yOffset);
 		return this;
 	}
-	
-	public Crop offset(int xOffset, int yOffset) {
-		xOffset(xOffset);
-		return yOffset(yOffset);
+
+	public Crop atOffset(int xOffset, int yOffset) {
+		// rewrite here to avoid partial update
+		Validate.isTrue(xOffset >= 0 && yOffset >= 0);
+		params.put("x", xOffset);
+		params.put("y", yOffset);
+		return this;
 	}
 
 	public Crop cropSmallerToAspectRatio() {

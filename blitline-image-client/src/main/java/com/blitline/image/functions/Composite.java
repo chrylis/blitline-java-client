@@ -15,8 +15,8 @@ public class Composite extends AbstractFunction {
 		return "composite";
 	}
 
-	public Composite(String src) {
-		params.put("src", src);
+	public Composite(String srcUrl) {
+		params.put("src", srcUrl);
 	}
 
 	public Composite(URL src) {
@@ -364,6 +364,11 @@ public class Composite extends AbstractFunction {
 
 		private Operation(String blitlineValue) {
 			this.blitlineValue = blitlineValue;
+		}
+		
+		@Override
+		public String toString() {
+			return blitlineValue;
 		}
 	}
 }

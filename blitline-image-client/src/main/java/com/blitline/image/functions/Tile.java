@@ -1,5 +1,7 @@
 package com.blitline.image.functions;
 
+import java.net.URL;
+
 import org.apache.commons.lang3.Validate;
 
 public class Tile extends AbstractFunction {
@@ -10,6 +12,10 @@ public class Tile extends AbstractFunction {
 
 	public Tile(String src) {
 		params.put("src", src);
+	}
+	
+	public Tile(URL src) {
+		this(src.toString());
 	}
 
 	public Tile scaledAt(double scaleFactor) {

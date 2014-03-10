@@ -6,7 +6,7 @@ public class Density extends AbstractFunction {
 		return "density";
 	}
 	
-	Density(int dpi) {
+	public Density(int dpi) {
 		params.put("dpi", dpi);
 	}
 }
