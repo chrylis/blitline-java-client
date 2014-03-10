@@ -108,10 +108,14 @@ public class Blitline {
 		return ellipse(centerX, centerY, width, height);
 	}
 
-	// public static Enhance autoEnhance() {
-	// return Enhance.INSTANCE;
-	// }
-	// FIXME
+	/**
+	 * Invokes ImageMagick's {@code -enhance} option; most applications will prefer {@link #autoEnhance()}.
+	 * 
+	 * @return the singleton instance of the {@link Enhance} function
+	 */
+	public static Enhance enhance() {
+		return Enhance.INSTANCE;
+	}
 
 	public static Equalize equalize() {
 		return Equalize.INSTANCE;
@@ -212,11 +216,11 @@ public class Blitline {
 	public static Sharpen sharpen() {
 		return new Sharpen();
 	}
-	
+
 	public static Sketch sketchEffect() {
 		return new Sketch();
 	}
-	
+
 	public static Stegano steganoWatermark(String srcUrl) {
 		return new Stegano(srcUrl);
 	}
@@ -224,31 +228,31 @@ public class Blitline {
 	public static Stegano steganoWatermark(URL src) {
 		return new Stegano(src);
 	}
-	
+
 	public static Tile tile(String srcUrl) {
 		return new Tile(srcUrl);
 	}
-	
+
 	public static Tile tile(URL src) {
 		return new Tile(src);
 	}
-	
+
 	public static Trim trim() {
 		return new Trim();
 	}
-	
+
 	public static Trim autoTrim() {
 		return trim();
 	}
-	
+
 	public static Unsharpen unsharpen() {
 		return new Unsharpen();
 	}
-	
+
 	public static Vignette vignette() {
 		return new Vignette();
 	}
-	
+
 	public static Watermark watermark(String watermarkText) {
 		return new Watermark(watermarkText);
 	}

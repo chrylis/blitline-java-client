@@ -2,8 +2,8 @@ Blitline image-processing client
 ================================
 
 This is a library for building and submitting image-processing jobs to
-Blitline. Its main data classes, `Job` and the function classes, form a
-write-only builder for the Blitline API. Because of the flexibility of
+Blitline. Its main data classes, `BlitlineImageJob` and the function classes,
+form a write-only builder for the Blitline API. Because of the flexibility of
 several of the JSON attributes in the API and the fact that the server
 consuming the JSON is not written in Java, this library does not support
 turning a job definition into any Java-sensible object.
@@ -26,7 +26,7 @@ are thrown away).
 
 ###Technical notes
 
-The `Function` class contains static convenience wrappers for the constructors
+The `Blitline` class contains static convenience wrappers for the constructors
 for all of the Blitline image functions. As intentional technical debt, these
 wrappers are currently maintained by hand because working around
 [MCOMPILER-157](https://jira.codehaus.org/browse/MCOMPILER-157) is more trouble
