@@ -1,13 +1,16 @@
 package com.blitline.image.functions;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.blitline.image.AzureLocation;
+import com.blitline.image.Blitline;
 import com.blitline.image.BlitlineImageJob;
 import com.blitline.image.S3Location;
 import com.blitline.image.SavedImage;
@@ -55,7 +58,7 @@ public class TestSerializer {
 		System.out.println(mapper.writeValueAsString(an));
 	}
 
-	@Test
+	@Test @Ignore
 	public void integrationText() throws JsonProcessingException {
 		final String targetBucket = "mytargetbucket";
 		final String applicationId = "myAppId";
@@ -70,5 +73,27 @@ public class TestSerializer {
 			);
 
 		System.out.println(mapper.writeValueAsString(j));
+	}
+	
+	@Test //@Ignore
+	public void twiddleErrors() throws JsonProcessingException {
+		final String applicationId = "myAppId";
+		BlitlineImageJob j = BlitlineImageJob.forApplication(applicationId)
+			.fromUrl("http://cdn.blitline.com/filters/boys.jpeg")
+			.apply(
+				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("SUCCESS")),
+				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("FAILURE"))
+			);
+
+		System.out.println(mapper.writeValueAsString(j));
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Test @Ignore
+	public void des() throws IOException {
+		final String test = "{\"results\":\"{\\\"original_meta\\\":null,\\\"images\\\":[{\\\"image_identifier\\\":\\\"SUCCESS\\\",\\\"s3_url\\\":\\\"http://s3.amazonaws.com/blitline/2014031018/3155/1mInTKnqiw8FiqeymvNY46A.jpg\\\",\\\"meta\\\":{\\\"width\\\":720,\\\"height\\\":540}},{\\\"error\\\":\\\"Image processing failed. Ellipse method must have origin_x,origin_y,width,height values\\\"},{\\\"failed_image_identifiers\\\":[\\\"SUCCESS\\\",\\\"FAILURE\\\"]}],\\\"job_id\\\":\\\"2uWXnYkcmfFBjQMgLyVHFrQ\\\"}\"}";
+
+		Map r = mapper.readValue((String) mapper.readValue(test, Map.class).get("results"),Map.class);
+		System.out.println(r);
 	}
 }

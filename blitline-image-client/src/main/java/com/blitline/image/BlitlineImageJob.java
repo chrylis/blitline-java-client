@@ -37,6 +37,10 @@ public class BlitlineImageJob {
 		return postbackUrl;
 	}
 	
+	public String getV() {
+		return "1.18";
+	}
+	
 	public List<Function> getFunctions() {
 		return Collections.unmodifiableList(functions);
 	}
