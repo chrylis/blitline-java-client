@@ -27,6 +27,7 @@ public class TestSerializer {
 	@BeforeClass
 	public static void buildMapper() {
 		mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	}
 
@@ -76,10 +77,11 @@ public class TestSerializer {
 		final String applicationId = "twiddleErrors";
 		BlitlineImageJob j = BlitlineImageJob.forApplication(applicationId)
 			.fromUrl("http://cdn.blitline.com/filters/boys.jpeg")
+			.withPostback("http://gyahhowtdy.localtunnel.me/postback")
 			.apply(
 				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("SUCCESS")),
-				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("FAILURE")),
-				Blitline.cropToSquare().gravity(Gravity.NORTH)
+//				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("FAILURE")),
+				Blitline.cropToSquare().gravity(Gravity.NORTH).andSaveResult("cropsquare")
 			);
 
 		System.out.println(mapper.writeValueAsString(j));
