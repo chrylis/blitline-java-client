@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>blitline-image-client</module>
+		<module>blitline-image-client-spring</module>
 	</modules>
 
 	<build>

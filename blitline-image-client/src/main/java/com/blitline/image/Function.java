@@ -29,6 +29,9 @@ public interface Function {
 	Collection<Function> getFunctions();
 
 	// returns this
+	Function andSaveResult(String imageIdentifier);
+	
+	// returns this
 	Function andSaveResultTo(SavedImage location);
 
 	// returns this
