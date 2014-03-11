@@ -8,6 +8,7 @@ import org.apache.commons.lang3.Validate;
 import com.blitline.image.AzureLocation;
 import com.blitline.image.S3Location;
 import com.blitline.image.functions.params.Gravity;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Composite extends AbstractFunction {
 	@Override
@@ -366,6 +367,7 @@ public class Composite extends AbstractFunction {
 			this.blitlineValue = blitlineValue;
 		}
 		
+		@JsonValue
 		@Override
 		public String toString() {
 			return blitlineValue;

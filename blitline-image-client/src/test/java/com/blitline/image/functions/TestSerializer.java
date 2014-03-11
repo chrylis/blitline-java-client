@@ -15,6 +15,7 @@ import com.blitline.image.BlitlineImageJob;
 import com.blitline.image.S3Location;
 import com.blitline.image.SavedImage;
 import com.blitline.image.functions.params.FontStyle;
+import com.blitline.image.functions.params.Gravity;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,10 +29,11 @@ public class TestSerializer {
 	@BeforeClass
 	public static void buildMapper() {
 		mapper = new ObjectMapper();
-		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
-		mapper.setSerializationInclusion(Include.NON_EMPTY);
-		mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, SerializationFeature.INDENT_OUTPUT);
-		mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
+//		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+//		mapper.setSerializationInclusion(Include.NON_EMPTY);
+//		mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+//		mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
 	}
 
 	@Test
@@ -77,12 +79,13 @@ public class TestSerializer {
 	
 	@Test //@Ignore
 	public void twiddleErrors() throws JsonProcessingException {
-		final String applicationId = "myAppId";
+		final String applicationId = "twiddleErrors";
 		BlitlineImageJob j = BlitlineImageJob.forApplication(applicationId)
 			.fromUrl("http://cdn.blitline.com/filters/boys.jpeg")
 			.apply(
 				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("SUCCESS")),
-				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("FAILURE"))
+				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("FAILURE")),
+				Blitline.cropToSquare().gravity(Gravity.NORTH)
 			);
 
 		System.out.println(mapper.writeValueAsString(j));

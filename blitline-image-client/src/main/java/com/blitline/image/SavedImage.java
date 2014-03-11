@@ -1,11 +1,18 @@
 package com.blitline.image;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 /**
  * A base class representing a place where a processed image can be saved.
  * 
  * @author Christopher Smith
  *
  */
+@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonInclude(Include.NON_NULL)
 public class SavedImage {
 	
 	public final String imageIdentifier;

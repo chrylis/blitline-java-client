@@ -1,5 +1,7 @@
 package com.blitline.image.functions.params;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Gravity {
 	EAST("EastGravity"),
 	WEST("WestGravity"),
@@ -17,6 +19,7 @@ public enum Gravity {
 		this.blitlineValue = blitlineValue;
 	}
 	
+	@JsonValue
 	@Override
 	public String toString() {
 		return blitlineValue;

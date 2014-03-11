@@ -13,15 +13,15 @@ public class Blitline {
 	}
 
 	public static AutoEnhance autoEnhance() {
-		return AutoEnhance.INSTANCE;
+		return new AutoEnhance();
 	}
 
 	public static AutoGamma autoGamma() {
-		return AutoGamma.INSTANCE;
+		return new AutoGamma();
 	}
 
 	public static AutoLevel autoLevel() {
-		return AutoLevel.INSTANCE;
+		return new AutoLevel();
 	}
 
 	public static BackgroundColor backgroundColor() {
@@ -97,7 +97,7 @@ public class Blitline {
 	}
 
 	public static Despeckle despeckle() {
-		return Despeckle.INSTANCE;
+		return new Despeckle();
 	}
 
 	public static Ellipse ellipse(int centerX, int centerY, int width, int height) {
@@ -114,15 +114,15 @@ public class Blitline {
 	 * @return the singleton instance of the {@link Enhance} function
 	 */
 	public static Enhance enhance() {
-		return Enhance.INSTANCE;
+		return new Enhance();
 	}
 
 	public static Equalize equalize() {
-		return Equalize.INSTANCE;
+		return new Equalize();
 	}
 
 	public static Equalize autoEqualize() {
-		return Equalize.INSTANCE;
+		return equalize();
 	}
 
 	public static GammaChannel adjustGammaBy(double gammaAdjustment) {
@@ -130,7 +130,7 @@ public class Blitline {
 	}
 
 	public static Grayscale toGrayscale() {
-		return Grayscale.INSTANCE;
+		return new Grayscale();
 	}
 
 	public static ImaggaSmartCrop imaggaCrop(int width, int height) {
@@ -154,11 +154,11 @@ public class Blitline {
 	}
 
 	public static NoOp noOp() {
-		return NoOp.INSTANCE;
+		return new NoOp();
 	}
 
 	public static Normalize normalize() {
-		return Normalize.INSTANCE;
+		return new Normalize();
 	}
 
 	public static Pad pad(int thickness) {

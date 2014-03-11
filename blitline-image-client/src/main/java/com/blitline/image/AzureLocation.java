@@ -1,5 +1,9 @@
 package com.blitline.image;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public class AzureLocation {
 
 	public final String accountName, sharedAccessSignature;
