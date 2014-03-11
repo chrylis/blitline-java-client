@@ -16,10 +16,8 @@ import com.blitline.image.S3Location;
 import com.blitline.image.SavedImage;
 import com.blitline.image.functions.params.FontStyle;
 import com.blitline.image.functions.params.Gravity;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class TestSerializer {
@@ -29,11 +27,7 @@ public class TestSerializer {
 	@BeforeClass
 	public static void buildMapper() {
 		mapper = new ObjectMapper();
-//		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
-//		mapper.setSerializationInclusion(Include.NON_EMPTY);
-//		mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-//		mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
 	}
 
 	@Test
