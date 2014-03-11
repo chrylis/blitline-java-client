@@ -1,8 +1,54 @@
 package com.blitline.image;
 
-import java.net.URL;
+import java.net.URI;
 
-import com.blitline.image.functions.*;
+import com.blitline.image.functions.Annotate;
+import com.blitline.image.functions.AutoEnhance;
+import com.blitline.image.functions.AutoGamma;
+import com.blitline.image.functions.AutoLevel;
+import com.blitline.image.functions.BackgroundColor;
+import com.blitline.image.functions.BashScript;
+import com.blitline.image.functions.Blur;
+import com.blitline.image.functions.Composite;
+import com.blitline.image.functions.Contrast;
+import com.blitline.image.functions.ContrastStretchChannel;
+import com.blitline.image.functions.Crop;
+import com.blitline.image.functions.CropToSquare;
+import com.blitline.image.functions.DeleteColorProfile;
+import com.blitline.image.functions.Density;
+import com.blitline.image.functions.Deskew;
+import com.blitline.image.functions.Despeckle;
+import com.blitline.image.functions.Ellipse;
+import com.blitline.image.functions.Enhance;
+import com.blitline.image.functions.Equalize;
+import com.blitline.image.functions.GammaChannel;
+import com.blitline.image.functions.Grayscale;
+import com.blitline.image.functions.ImaggaSmartCrop;
+import com.blitline.image.functions.Line;
+import com.blitline.image.functions.MedianFilter;
+import com.blitline.image.functions.Modulate;
+import com.blitline.image.functions.NoOp;
+import com.blitline.image.functions.Normalize;
+import com.blitline.image.functions.Pad;
+import com.blitline.image.functions.PadResizeToFit;
+import com.blitline.image.functions.PhotographEffect;
+import com.blitline.image.functions.Quantize;
+import com.blitline.image.functions.Rectangle;
+import com.blitline.image.functions.Resample;
+import com.blitline.image.functions.Resize;
+import com.blitline.image.functions.ResizeToFit;
+import com.blitline.image.functions.Rotate;
+import com.blitline.image.functions.RunExecutable;
+import com.blitline.image.functions.Scale;
+import com.blitline.image.functions.SepiaTone;
+import com.blitline.image.functions.Sharpen;
+import com.blitline.image.functions.Sketch;
+import com.blitline.image.functions.Stegano;
+import com.blitline.image.functions.Tile;
+import com.blitline.image.functions.Trim;
+import com.blitline.image.functions.Unsharpen;
+import com.blitline.image.functions.Vignette;
+import com.blitline.image.functions.Watermark;
 
 public class Blitline {
 	private Blitline() {
@@ -48,7 +94,7 @@ public class Blitline {
 		return new Composite(srcUrl);
 	}
 
-	public static Composite compositeWith(URL src) {
+	public static Composite compositeWith(URI src) {
 		return new Composite(src);
 	}
 
@@ -225,7 +271,7 @@ public class Blitline {
 		return new Stegano(srcUrl);
 	}
 
-	public static Stegano steganoWatermark(URL src) {
+	public static Stegano steganoWatermark(URI src) {
 		return new Stegano(src);
 	}
 
@@ -233,7 +279,7 @@ public class Blitline {
 		return new Tile(srcUrl);
 	}
 
-	public static Tile tile(URL src) {
+	public static Tile tile(URI src) {
 		return new Tile(src);
 	}
 

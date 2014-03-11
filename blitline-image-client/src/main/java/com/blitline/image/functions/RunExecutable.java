@@ -1,6 +1,6 @@
 package com.blitline.image.functions;
 
-import java.net.URL;
+import java.net.URI;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -27,7 +27,7 @@ public class RunExecutable extends AbstractScriptFunction {
 		return this;
 	}
 
-	public RunExecutable withFiles(URL... urls) {
+	public RunExecutable withFiles(URI... urls) {
 		Validate.validState(!params.containsKey("files"), "only one set of files may be specified");
 		params.put("files", StringUtils.join(urls, ','));
 		return this;

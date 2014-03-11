@@ -1,6 +1,6 @@
 package com.blitline.image.functions;
 
-import java.net.URL;
+import java.net.URI;
 
 public class Stegano extends AbstractFunction {
 	@Override
@@ -12,7 +12,7 @@ public class Stegano extends AbstractFunction {
 		params.put("watermark_url", watermarkSrc);
 	}
 	
-	public Stegano(URL watermarkSrc) {
+	public Stegano(URI watermarkSrc) {
 		this(watermarkSrc.toString());
 	}
 	

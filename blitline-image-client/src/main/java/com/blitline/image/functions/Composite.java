@@ -1,6 +1,6 @@
 package com.blitline.image.functions;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Collections;
 
 import org.apache.commons.lang3.Validate;
@@ -20,7 +20,7 @@ public class Composite extends AbstractFunction {
 		params.put("src", srcUrl);
 	}
 
-	public Composite(URL src) {
+	public Composite(URI src) {
 		params.put("src", src.toString());
 	}
 

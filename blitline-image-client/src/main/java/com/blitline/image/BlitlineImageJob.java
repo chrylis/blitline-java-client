@@ -1,6 +1,6 @@
 package com.blitline.image;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -124,7 +124,7 @@ public class BlitlineImageJob {
 		 *            the URL for the image to be processed
 		 * @return this {@code Builder} object
 		 */
-		public Builder fromUrl(URL src) {
+		public Builder fromUrl(URI src) {
 			return fromUrl(src.toString());
 		}
 
@@ -172,7 +172,7 @@ public class BlitlineImageJob {
 		 *            the callback URL
 		 * @return this {@code Builder} object
 		 */
-		public Builder withPostback(URL postbackUrl) {
+		public Builder withPostback(URI postbackUrl) {
 			return withPostback(postbackUrl.toString());
 		}
 		

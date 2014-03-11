@@ -1,7 +1,6 @@
 package com.blitline.image.spring;
 
 import java.net.URI;
-import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -138,7 +137,7 @@ public class BlitlineImageService {
 	 *            the URL of the source image to be loaded
 	 * @return a job builder with application ID and optionally postback URL set
 	 */
-	public BlitlineImageJob.Builder loadUrl(URL src) {
+	public BlitlineImageJob.Builder loadUrl(URI src) {
 		return jobBuilder().fromUrl(src);
 	}
 

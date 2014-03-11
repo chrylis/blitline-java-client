@@ -1,6 +1,6 @@
 package com.blitline.image.functions;
 
-import java.net.URL;
+import java.net.URI;
 
 import org.apache.commons.lang3.Validate;
 
@@ -14,7 +14,7 @@ public class Tile extends AbstractFunction {
 		params.put("src", src);
 	}
 	
-	public Tile(URL src) {
+	public Tile(URI src) {
 		this(src.toString());
 	}
 
