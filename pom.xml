@@ -5,6 +5,18 @@
 	<artifactId>blitline-java-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<name>Blitline Java client</name>
+	<description>Java client libraries for Blitline</description>
+	<!-- <url>http://git</url> -->
+
+	<developers>
+		<developer>
+			<id>chrylis@gmail.com</id>
+			<name>Christopher Smith</name>
+			<email>chrylis@gmail.com</email>
+		</developer>
+	</developers>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
