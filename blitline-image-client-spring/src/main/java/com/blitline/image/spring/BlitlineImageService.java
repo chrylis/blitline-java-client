@@ -43,7 +43,7 @@ import com.blitline.image.BlitlinePostResults;
 @Service
 public class BlitlineImageService {
 
-	@Value("${blitline.applicationId:}")
+	@Value("${blitline.applicationId:no application ID set!}")
 	private String applicationId;
 
 	@Value("${blitline.postbackUrl:#{null}}")

@@ -26,6 +26,7 @@
 	<modules>
 		<module>blitline-image-client</module>
 		<module>blitline-image-client-spring</module>
+		<module>blitline-image-client-example</module>
 	</modules>
 
 	<build>
