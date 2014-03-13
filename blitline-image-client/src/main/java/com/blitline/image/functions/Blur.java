@@ -1,18 +1,13 @@
 package com.blitline.image.functions;
 
-public class Blur extends AbstractFunction {
+public class Blur extends AbstractGaussianFunction<Blur> {
 	@Override
 	public String getName() {
 		return "blur";
 	}
 	
-	public Blur sigma(double sigma) {
-		params.put("sigma", sigma);
-		return this;
-	}
-	
-	public Blur radius(double radius) {
-		putRadius(radius);
+	@Override
+	protected Blur getThis() {
 		return this;
 	}
 }

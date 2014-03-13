@@ -1,5 +1,7 @@
 package com.blitline.image.functions.params;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum LineCap {
 	BUTT("butt"),
 	ROUND("round"),
@@ -11,6 +13,7 @@ public enum LineCap {
 		this.blitlineValue = blitlineValue;
 	}
 	
+	@JsonValue
 	@Override
 	public String toString() {
 		return blitlineValue;

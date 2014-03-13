@@ -8,7 +8,7 @@ public class Crop extends AbstractFunction {
 		return "crop";
 	}
 
-	Crop(int width) {
+	public Crop(int width) {
 		Validate.isTrue(width > 0);
 		params.put("width", width);
 	}
@@ -27,6 +27,14 @@ public class Crop extends AbstractFunction {
 
 	public Crop yOffset(int yOffset) {
 		Validate.isTrue(yOffset >= 0);
+		params.put("y", yOffset);
+		return this;
+	}
+
+	public Crop atOffset(int xOffset, int yOffset) {
+		// rewrite here to avoid partial update
+		Validate.isTrue(xOffset >= 0 && yOffset >= 0);
+		params.put("x", xOffset);
 		params.put("y", yOffset);
 		return this;
 	}

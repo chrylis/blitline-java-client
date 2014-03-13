@@ -1,5 +1,7 @@
 package com.blitline.image.functions.params;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum FontStyle {
 
 	NORMAL("normal"),
@@ -12,6 +14,7 @@ public enum FontStyle {
 		this.blitlineValue = blitlineValue;
 	}
 	
+	@JsonValue
 	@Override
 	public String toString() {
 		return blitlineValue;

@@ -1,15 +1,69 @@
 package com.blitline.image;
 
-import java.net.URL;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Job {
+import org.apache.commons.lang3.Validate;
 
-	public Job() {
-		// TODO Auto-generated constructor stub
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonRootName("json")
+@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonInclude(Include.NON_EMPTY)
+public class BlitlineImageJob {
+	
+	private final String applicationId;
+	private final Object src;
+	private final String postbackUrl;
+	private final List<Function> functions = new LinkedList<Function>();
+	
+	public BlitlineImageJob(String applicationId, Object src, String postbackUrl) {
+		Validate.notNull(applicationId, "application ID must not be null");
+		this.applicationId = applicationId;
+		
+		Validate.notNull(src,"image source must not be null");
+		this.src = src;
+		
+		this.postbackUrl = postbackUrl;
+	}
+	
+	public String getApplicationId() {
+		return applicationId;
+	}
+	
+	public Object getSrc() {
+		return src;
+	}
+	
+	public String getPostbackUrl() {
+		return postbackUrl;
+	}
+	
+	public String getV() {
+		return "1.18";
+	}
+	
+	public List<Function> getFunctions() {
+		return Collections.unmodifiableList(functions);
+	}
+	
+	public void apply(Function... functions) {
+		this.functions.addAll(Arrays.asList(functions));
+	}
+	
+	public static Builder forApplication(String applicationId) {
+		return new Builder(applicationId);
 	}
 
 	/**
-	 * Fluent builder class for a {@link Job} instance.
+	 * Fluent builder class for a {@link BlitlineImageJob} instance.
 	 * 
 	 * @author Christopher Smith
 	 * 
@@ -45,6 +99,8 @@ public class Job {
 		private void setSrc(Object src) {
 			if (this.src != null)
 				throw new IllegalStateException("src is already set");
+			
+			this.src = src;
 		}
 
 		/**
@@ -68,7 +124,7 @@ public class Job {
 		 *            the URL for the image to be processed
 		 * @return this {@code Builder} object
 		 */
-		public Builder fromUrl(URL src) {
+		public Builder fromUrl(URI src) {
 			return fromUrl(src.toString());
 		}
 
@@ -116,12 +172,14 @@ public class Job {
 		 *            the callback URL
 		 * @return this {@code Builder} object
 		 */
-		public Builder withPostback(URL postbackUrl) {
+		public Builder withPostback(URI postbackUrl) {
 			return withPostback(postbackUrl.toString());
 		}
 		
-//		public Pipeline start(Pipeline... pipelines) {
-//			
-//		}
+		public BlitlineImageJob apply(Function... functions) {
+			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, postbackUrl);
+			job.apply(functions);
+			return job;
+		}
 	}
 }

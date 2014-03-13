@@ -6,7 +6,7 @@ public class DeleteColorProfile extends AbstractFunction {
 		return "delete_profile";
 	}
 	
-	DeleteColorProfile(String profileName) {
+	public DeleteColorProfile(String profileName) {
 		params.put("name", profileName);
 	}
 }

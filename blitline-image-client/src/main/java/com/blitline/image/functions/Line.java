@@ -10,18 +10,21 @@ public class Line extends AbstractFunction {
 		return "line";
 	}
 	
-	Line(int x1, int y1, int x2, int y2) {
+	public Line(int x1, int y1, int x2, int y2) {
 		params.put("x", x1);
 		params.put("y", y1);
 		params.put("x1", x2);
 		params.put("y1", y2);
 	}
 	
-	//FIXME: color
-	
 	public Line width(int width) {
 		Validate.isTrue(width > 0, "line width must be positive");
 		params.put("width", width);
+		return this;
+	}
+	
+	public Line color(String color) {
+		params.put("color", color);
 		return this;
 	}
 	

@@ -1,6 +1,14 @@
 package com.blitline.image;
 
+import java.util.Collection;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 /**
  * A Blitline image-processing function. Implementing classes are expected to ensure that their required parameters are collected
@@ -10,8 +18,22 @@ import java.util.Map;
  * @author Christopher Smith
  * 
  */
+@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+@JsonInclude(Include.NON_EMPTY)
+@JsonFormat(shape = Shape.STRING)
 public interface Function {
 	String getName();
 
 	Map<String, Object> getParams();
+
+	Collection<Function> getFunctions();
+
+	// returns this
+	Function andSaveResult(String imageIdentifier);
+	
+	// returns this
+	Function andSaveResultTo(SavedImage location);
+
+	// returns this
+	Function thenApply(Function... functions);
 }

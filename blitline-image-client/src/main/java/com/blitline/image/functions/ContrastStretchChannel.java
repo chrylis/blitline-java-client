@@ -8,7 +8,7 @@ public class ContrastStretchChannel extends AbstractFunction {
 		return "contrast_stretch_channel";
 	}
 
-	ContrastStretchChannel(int blackPoint) {
+	public ContrastStretchChannel(int blackPoint) {
 		Validate.isTrue(blackPoint >= 0);
 		params.put("black_point", blackPoint);
 	}
