@@ -54,6 +54,10 @@ public class S3Location {
 	public String getKey() {
 		return key;
 	}
+	
+	public String getName() {
+		return "s3";
+	}
 
 	@Override
 	public int hashCode() {

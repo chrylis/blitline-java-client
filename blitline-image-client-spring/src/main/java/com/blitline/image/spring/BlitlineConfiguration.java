@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 @Configuration
 @ComponentScan
-@PropertySource("classpath:/blitline.properties")
+@PropertySource(value = "classpath:/blitline.properties", ignoreResourceNotFound = true)
 public class BlitlineConfiguration {
 
 	/**
