@@ -51,6 +51,12 @@ import com.blitline.image.functions.Vignette;
 import com.blitline.image.functions.Watermark;
 
 public class Blitline {
+	
+	/**
+	 * The API version this library will invoke. 1.20 fixed error reporting.
+	 */
+	public static final String BLITLINE_API_VERSION = "1.20";
+	
 	private Blitline() {
 	}
 

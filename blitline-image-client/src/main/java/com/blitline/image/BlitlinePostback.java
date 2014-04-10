@@ -21,7 +21,7 @@ public class BlitlinePostback {
 
 	private String jobId;
 
-	private String error;
+	private Collection<String> errors = Collections.emptySet();
 
 	private Collection<String> failedImageIdentifiers = Collections.emptySet();
 
@@ -43,17 +43,17 @@ public class BlitlinePostback {
 		this.jobId = jobId;
 	}
 
-	public String getError() {
-		return error;
+	public Collection<String> getErrors() {
+		return errors;
 	}
 
-	public void setError(String error) {
-		this.error = error;
+	public void setErrors(Collection<String> errors) {
+		this.errors = errors;
 	}
 
 	@JsonIgnore
 	public boolean isSuccessful() {
-		return error == null;
+		return errors.isEmpty();
 	}
 
 	public Collection<String> getFailedImageIdentifiers() {
@@ -79,7 +79,7 @@ public class BlitlinePostback {
 		if (isSuccessful())
 			sb.append(", ").append(images.size()).append(" images processed");
 		else
-			sb.append(", error=").append(error);
+			sb.append(", errors=").append(errors);
 		sb.append(']');
 		return sb.toString();
 	}
