@@ -11,6 +11,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import com.blitline.image.BlitlinePostback;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -26,7 +27,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  */
 @Configuration
 @ComponentScan
-@PropertySource("classpath:/blitline.properties")
+@PropertySource(value = "classpath:/blitline.properties", ignoreResourceNotFound = true)
 public class BlitlineConfiguration {
 
 	/**
@@ -42,6 +43,7 @@ public class BlitlineConfiguration {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
 		mapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
+		mapper.setDateFormat(BlitlinePostback.BLITLINE_DATE_FORMAT);
 		return mapper;
 	}
 

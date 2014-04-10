@@ -47,7 +47,7 @@ public class BlitlineImageJob {
 	}
 	
 	public String getV() {
-		return "1.18";
+		return Blitline.BLITLINE_API_VERSION;
 	}
 	
 	public List<Function> getFunctions() {

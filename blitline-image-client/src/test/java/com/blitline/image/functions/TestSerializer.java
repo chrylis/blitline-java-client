@@ -33,6 +33,7 @@ public class TestSerializer {
 
 	@Test
 	@Ignore
+	// FIXME
 	public void testJackson() throws JsonProcessingException {
 		List<AbstractFunction> functions;
 
@@ -56,6 +57,7 @@ public class TestSerializer {
 	}
 
 	@Test @Ignore
+	// FIXME
 	public void integrationText() throws JsonProcessingException {
 		final String targetBucket = "mytargetbucket";
 		final String applicationId = "myAppId";
