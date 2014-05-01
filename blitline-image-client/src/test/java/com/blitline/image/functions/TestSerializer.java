@@ -12,23 +12,21 @@ import org.junit.Test;
 import com.blitline.image.AzureLocation;
 import com.blitline.image.Blitline;
 import com.blitline.image.BlitlineImageJob;
+import com.blitline.image.BlitlineTestUtils;
 import com.blitline.image.S3Location;
 import com.blitline.image.SavedImage;
 import com.blitline.image.functions.params.FontStyle;
 import com.blitline.image.functions.params.Gravity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class TestSerializer {
 
 	private static ObjectMapper mapper;
 
 	@BeforeClass
-	public static void buildMapper() {
-		mapper = new ObjectMapper();
-		mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+	public static void initMapper() {
+		mapper = BlitlineTestUtils.buildMapper();
 	}
 
 	@Test
@@ -73,7 +71,7 @@ public class TestSerializer {
 
 		System.out.println(mapper.writeValueAsString(j));
 	}
-	
+
 	@Test //@Ignore
 	public void twiddleErrors() throws JsonProcessingException {
 		final String applicationId = "twiddleErrors";
@@ -88,7 +86,7 @@ public class TestSerializer {
 
 		System.out.println(mapper.writeValueAsString(j));
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Test @Ignore
 	public void des() throws IOException {
