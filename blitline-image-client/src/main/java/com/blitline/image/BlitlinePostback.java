@@ -1,15 +1,24 @@
 package com.blitline.image;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonRootName("results")
@@ -133,6 +142,7 @@ public class BlitlinePostback {
 			this.dateCreated = dateCreated;
 		}
 
+		@JsonDeserialize(using = ExifDeserializer.class)
 		public void setAllExif(Map<String, String> allExif) {
 			this.allExif = allExif;
 		}
@@ -258,6 +268,28 @@ public class BlitlinePostback {
 					sb.append(", density=").append(density);
 				return sb.toString();
 			}
+		}
+	}
+
+	public static class ExifDeserializer extends JsonDeserializer<Map<String, String>> {
+		@Override
+		public Map<String, String> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
+			JsonProcessingException {
+
+			Map<String, String> map = new HashMap<String, String>();
+
+			JsonToken token;
+
+			if ((token = jp.getCurrentToken()) != JsonToken.START_ARRAY)
+				throw new JsonMappingException("expected start of array, but found " + token, jp.getCurrentLocation());
+
+			while((token = jp.nextToken()) == JsonToken.START_ARRAY) {
+				map.put(jp.nextTextValue(), jp.nextTextValue());
+				if((token = jp.nextToken()) != JsonToken.END_ARRAY)
+					throw new JsonMappingException("expected a 2-valued array, but next token was a " + token, jp.getCurrentLocation());
+			}
+
+			return map;
 		}
 	}
 }
