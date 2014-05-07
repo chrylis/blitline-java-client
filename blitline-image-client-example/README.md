@@ -12,8 +12,7 @@ application, or run from the command line using Maven:
 
 ````sh
 blitline-java-client$ mvn install  # this example depends on the other modules
-blitline-java-client$ mvn exec:java -pl blitline-image-client-example \
-                      -Dexec.mainClass=com.blitline.image.example.ExampleLauncher
+blitline-java-client$ mvn exec:java -pl blitline-image-client-example
 ````
 
 The example by default uses the test application ID `test_job`, which is
@@ -23,7 +22,6 @@ the job for real, add your own application ID as a property to the launch:
 
 ````sh
 blitline-java-client$ mvn exec:java -pl blitline-image-client-example \
-                      -Dexec.mainClass=com.blitline.image.example.ExampleLauncher \
                       -Dblitline.applicationId=MY_APP_ID_HERE
 ````
 
@@ -36,11 +34,30 @@ result is saved to the image identifier provided in the path. The optional
 harbor photograph used in Blitline examples. The URI for the example is
 
 ````
-http://localhost:8080/blitline/{imageIdentifier}[?sourceImage=ENCODED_URL]
+http://localhost:8080/blitline/{imageIdentifier}[?sourceImage=ENCODED_URL&postback=ENCODED_URL]
 ````
 
 The endpoint returns the job confirmation received from Blitline, which has
 been turned into a Java object by Jackson and then re-serialized by Spring MVC.
+
+####Postbacks
+
+By default, this example does not send a postback URL to Blitline, which tells
+Blitline that you intend to poll for the job status. Postbacks are not fired
+for test jobs, so if you want to try postbacks with the example, you'll need
+to [sign up for a free account](https://www.blitline.com/signup) and provide
+your ID as described above.
+
+You can then pass in a postback URL as a query parameter, which will be passed
+on to Blitline, or you can specify the value `auto`, in which case the
+controller will inspect the HTTP request, determine the base URL for the
+container, and resolve the postback controller's URL from there. Note that in
+order for Blitline to actually send you these postbacks, you'll need to use a
+publicly-accessible URL (no `localhost`!), such as one provided by
+[Localtunnel](https://www.localtunnel.me).
+
+The postback handler for this example simply prints a summary of the postback
+results to standard output.
 
 ###Shutdown
 

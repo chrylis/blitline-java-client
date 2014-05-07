@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.blitline.image.BlitlineImageJob;
 import com.blitline.image.BlitlinePostResults;
+import com.blitline.image.spring.postback.BlitlinePostbackUrlProvider;
 
 /**
  * This class is a service facade for the Blitline image-processing service intended primarily for use with the Spring Framework,
@@ -46,13 +47,13 @@ public class BlitlineImageService {
 	@Value("${blitline.applicationId:no application ID set!}")
 	private String applicationId;
 
-	@Value("${blitline.postbackUrl:#{null}}")
-	private String postbackUrl;
+	@Autowired(required = false)
+	private BlitlinePostbackUrlProvider postbackUrlProvider;
 
 	@Value("${blitline.s3sourceBucket:#{null}}")
 	private String s3bucket;
 
-	private boolean alwaysExtendedMetadata = true;
+	private boolean alwaysExtendedMetadata = false;
 
 	public String getApplicationId() {
 		return applicationId;
@@ -62,12 +63,12 @@ public class BlitlineImageService {
 		this.applicationId = applicationId;
 	}
 
-	public String getPostbackUrl() {
-		return postbackUrl;
+	public BlitlinePostbackUrlProvider getPostbackUrlProvider() {
+		return postbackUrlProvider;
 	}
 
-	public void setPostbackUrl(String postbackUrl) {
-		this.postbackUrl = postbackUrl;
+	public void setPostbackUrlProvider(BlitlinePostbackUrlProvider postbackUrlProvider) {
+		this.postbackUrlProvider = postbackUrlProvider;
 	}
 
 	public String getS3bucket() {
@@ -85,7 +86,8 @@ public class BlitlineImageService {
 	/**
 	 * If this flag is set, this service instance will always request extended image metadata from Blitline.
 	 *
-	 * @param alwaysExtendedMetadata whether to request extended metadata on all jobs
+	 * @param alwaysExtendedMetadata
+	 *            whether to request extended metadata on all jobs
 	 */
 	public void setAlwaysExtendedMetadata(boolean alwaysExtendedMetadata) {
 		this.alwaysExtendedMetadata = alwaysExtendedMetadata;
@@ -112,8 +114,8 @@ public class BlitlineImageService {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("BlitlineImageService[applicationId=").append(applicationId);
-		if (postbackUrl != null)
-			sb.append(",postbackUrl=").append(postbackUrl);
+		if (postbackUrlProvider != null)
+			sb.append(",postbackUrlProvider=").append(postbackUrlProvider);
 		if (s3bucket != null)
 			sb.append(",s3Bucket=").append(s3bucket);
 		sb.append(']');
@@ -128,10 +130,10 @@ public class BlitlineImageService {
 	 */
 	public BlitlineImageJob.Builder jobBuilder() {
 		BlitlineImageJob.Builder builder = BlitlineImageJob.forApplication(applicationId);
-		if (postbackUrl != null)
-			builder.withPostback(postbackUrl);
+		if (postbackUrlProvider != null)
+			builder.withPostback(postbackUrlProvider.getPostbackUrl());
 
-		if(alwaysExtendedMetadata)
+		if (alwaysExtendedMetadata)
 			builder.withExtendedMetadata();
 
 		return builder;
