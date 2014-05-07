@@ -1,14 +1,24 @@
 package com.blitline.image;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonRootName("results")
@@ -86,16 +96,17 @@ public class BlitlinePostback {
 
 	@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 	public static class OriginalMetadata {
-		private Integer width, height;
+		private Integer width, height, filesize;
 		private Date dateCreated;
-		
+		private Map<String, String> allExif = Collections.emptyMap();
+
 		public OriginalMetadata() {
 		}
-		
+
 		public OriginalMetadata(Integer width, Integer height, Date dateCreated) {
 			this.width = width;
 			this.height = height;
-			if(dateCreated != null)
+			if (dateCreated != null)
 				this.dateCreated = new Date(dateCreated.getTime());
 		}
 
@@ -115,6 +126,14 @@ public class BlitlinePostback {
 			this.height = height;
 		}
 
+		public Integer getFilesize() {
+			return filesize;
+		}
+
+		public void setFilesize(Integer filesize) {
+			this.filesize = filesize;
+		}
+
 		public Date getDateCreated() {
 			return dateCreated;
 		}
@@ -123,46 +142,18 @@ public class BlitlinePostback {
 			this.dateCreated = dateCreated;
 		}
 
+		@JsonDeserialize(using = ExifDeserializer.class)
+		public void setAllExif(Map<String, String> allExif) {
+			this.allExif = allExif;
+		}
+
+		public Map<String, String> getAllExif() {
+			return allExif;
+		}
+
 		@Override
 		public String toString() {
 			return "size " + width + 'x' + height + ", created " + dateCreated;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
-			result = prime * result + ((height == null) ? 0 : height.hashCode());
-			result = prime * result + ((width == null) ? 0 : width.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (!(obj instanceof OriginalMetadata))
-				return false;
-			OriginalMetadata other = (OriginalMetadata) obj;
-			if (dateCreated == null) {
-				if (other.dateCreated != null)
-					return false;
-			} else if (!dateCreated.equals(other.dateCreated))
-				return false;
-			if (height == null) {
-				if (other.height != null)
-					return false;
-			} else if (!height.equals(other.height))
-				return false;
-			if (width == null) {
-				if (other.width != null)
-					return false;
-			} else if (!width.equals(other.width))
-				return false;
-			return true;
 		}
 	}
 
@@ -170,7 +161,7 @@ public class BlitlinePostback {
 	public static class Image {
 		private String imageIdentifier;
 		private String s3Url;
-		private Dimensions meta;
+		private ImageMeta meta;
 
 		public void setImageIdentifier(String imageIdentifier) {
 			this.imageIdentifier = imageIdentifier;
@@ -188,11 +179,11 @@ public class BlitlinePostback {
 			return s3Url;
 		}
 
-		public void setMeta(Dimensions meta) {
+		public void setMeta(ImageMeta meta) {
 			this.meta = meta;
 		}
 
-		public Dimensions getMeta() {
+		public ImageMeta getMeta() {
 			return meta;
 		}
 
@@ -204,17 +195,18 @@ public class BlitlinePostback {
 		}
 
 		@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
-		public static class Dimensions {
-			private Integer width, height;
+		public static class ImageMeta {
+			private Integer width, height, filesize, depth, quality;
+			private String density;
 
-			public Dimensions() {
+			public ImageMeta() {
 			}
-			
-			public Dimensions(Integer width, Integer height) {
+
+			public ImageMeta(Integer width, Integer height) {
 				this.width = width;
 				this.height = height;
 			}
-			
+
 			public Integer getHeight() {
 				return height;
 			}
@@ -231,41 +223,73 @@ public class BlitlinePostback {
 				this.width = width;
 			}
 
+			public Integer getFilesize() {
+				return filesize;
+			}
+
+			public void setFilesize(Integer filesize) {
+				this.filesize = filesize;
+			}
+
+			public Integer getDepth() {
+				return depth;
+			}
+
+			public void setDepth(Integer depth) {
+				this.depth = depth;
+			}
+
+			public Integer getQuality() {
+				return quality;
+			}
+
+			public void setQuality(Integer quality) {
+				this.quality = quality;
+			}
+
+			public String getDensity() {
+				return density;
+			}
+
+			public void setDensity(String density) {
+				this.density = density;
+			}
+
 			@Override
 			public String toString() {
-				return width + "x" + height;
+				StringBuilder sb = new StringBuilder().append(width).append('x').append(height);
+				if (filesize != null)
+					sb.append(", ").append(filesize).append(" bytes");
+				if (depth != null)
+					sb.append(", depth=").append(depth);
+				if (quality != null)
+					sb.append(", quality=").append(quality);
+				if (density != null)
+					sb.append(", density=").append(density);
+				return sb.toString();
+			}
+		}
+	}
+
+	public static class ExifDeserializer extends JsonDeserializer<Map<String, String>> {
+		@Override
+		public Map<String, String> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
+			JsonProcessingException {
+
+			Map<String, String> map = new HashMap<String, String>();
+
+			JsonToken token;
+
+			if ((token = jp.getCurrentToken()) != JsonToken.START_ARRAY)
+				throw new JsonMappingException("expected start of array, but found " + token, jp.getCurrentLocation());
+
+			while((token = jp.nextToken()) == JsonToken.START_ARRAY) {
+				map.put(jp.nextTextValue(), jp.nextTextValue());
+				if((token = jp.nextToken()) != JsonToken.END_ARRAY)
+					throw new JsonMappingException("expected a 2-valued array, but next token was a " + token, jp.getCurrentLocation());
 			}
 
-			@Override
-			public int hashCode() {
-				final int prime = 31;
-				int result = 1;
-				result = prime * result + ((height == null) ? 0 : height.hashCode());
-				result = prime * result + ((width == null) ? 0 : width.hashCode());
-				return result;
-			}
-
-			@Override
-			public boolean equals(Object obj) {
-				if (this == obj)
-					return true;
-				if (obj == null)
-					return false;
-				if (!(obj instanceof Dimensions))
-					return false;
-				Dimensions other = (Dimensions) obj;
-				if (height == null) {
-					if (other.height != null)
-						return false;
-				} else if (!height.equals(other.height))
-					return false;
-				if (width == null) {
-					if (other.width != null)
-						return false;
-				} else if (!width.equals(other.width))
-					return false;
-				return true;
-			}
+			return map;
 		}
 	}
 }

@@ -4,11 +4,15 @@
 	<parent>
 		<groupId>com.blitline</groupId>
 		<artifactId>blitline-java-parent</artifactId>
-		<version>0.9.5</version>
+		<version>0.10.0</version>
 	</parent>
 
 	<artifactId>blitline-image-client-example</artifactId>
 	<name>Standalone example for the Blitline image client</name>
+
+	<properties>
+		<java.version>1.7</java.version>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -27,7 +31,19 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>1.0.0.RC4</version>
+			<version>1.0.2.RELEASE</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.blitline.image.example.ExampleLauncher</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
