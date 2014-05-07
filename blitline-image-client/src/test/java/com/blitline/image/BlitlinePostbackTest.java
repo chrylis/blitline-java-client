@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.blitline.image.BlitlinePostback.Image;
-import com.blitline.image.BlitlinePostback.Image.Dimensions;
+import com.blitline.image.BlitlinePostback.Image.ImageMeta;
 import com.blitline.image.BlitlinePostback.OriginalMetadata;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,18 +39,23 @@ public class BlitlinePostbackTest {
 
 	public static final String IMAGE_IDENTIFIER = "6odPpPC9Ayy8Z2ETs9i1Bk-ts";
 
-	public static final Dimensions IMAGE_SIZE = new Dimensions(43, 64);
+	public static final ImageMeta IMAGE_SIZE = new ImageMeta(43, 64);
 
 	@Test
 	public void testSuccess() throws IOException {
 		BlitlinePostback postback = mapper.readValue(SUCCESS_POSTBACK_CONTENT, BlitlinePostback.class);
-		assertEquals(SUCCESS_ORIGINAL_META, postback.getOriginalMeta());
+		OriginalMetadata original = postback.getOriginalMeta();
+		assertEquals(Integer.valueOf(3740), original.getWidth());
+		assertEquals(Integer.valueOf(5573), original.getHeight());
+		assertEquals(new Date(1307502570000L), original.getDateCreated());
 		assertTrue(postback.isSuccessful());
 		assertEquals(1, postback.getImages().size());
 
 		Image image = postback.getImages().iterator().next();
 		assertEquals(IMAGE_IDENTIFIER, image.getImageIdentifier());
-		assertEquals(IMAGE_SIZE, image.getMeta());
+		ImageMeta meta = image.getMeta();
+		assertEquals(Integer.valueOf(43), meta.getWidth());
+		assertEquals(Integer.valueOf(64), meta.getHeight());
 	}
 
 	public static final String FAILURE_POSTBACK_CONTENT = "{\"results\":{"
@@ -60,15 +65,15 @@ public class BlitlinePostbackTest {
 		+ "\"errors\":[\"Image processing failed. Failed to download from s3 (404: Not Found (https://some-bucket.s3.amazonaws.com:443/wCg2ArHhjrr7DxNnsctWGM))\"],"
 		+ "\"failed_image_identifiers\":[\"wCg2ArHhjrr7DxNnsctWGM-tl\",\"wCg2ArHhjrr7DxNnsctWGM-tx\",\"wCg2ArHhjrr7DxNnsctWGM-ds\",\"wCg2ArHhjrr7DxNnsctWGM-dm\"]"
 		+ "}}";
-	
-	public static final String FAILURE_JOB_ID = "0QCEapK7xMIaoQvvkPyVk-w"; 
+
+	public static final String FAILURE_JOB_ID = "0QCEapK7xMIaoQvvkPyVk-w";
 
 	@Test
 	public void testFailure() throws IOException {
 		BlitlinePostback postback = mapper.readValue(FAILURE_POSTBACK_CONTENT, BlitlinePostback.class);
 		assertNull(postback.getOriginalMeta());
 		assertFalse(postback.isSuccessful());
-		
+
 		assertEquals(FAILURE_JOB_ID, postback.getJobId());
 		assertEquals(4, postback.getFailedImageIdentifiers().size());
 	}
