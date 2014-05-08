@@ -19,6 +19,11 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonInclude(Include.NON_EMPTY)
 public class BlitlineImageJob {
 
+	/**
+	 * The postback class considers any image identifier ending in this string to be an "identify-only" job.
+	 */
+	public static final String IDENTIFY_ONLY_SUFFIX = "-identify";
+
 	private final String applicationId;
 	private final Object src;
 	private final Boolean extendedMetadata;
@@ -29,7 +34,7 @@ public class BlitlineImageJob {
 		Validate.notNull(applicationId, "application ID must not be null");
 		this.applicationId = applicationId;
 
-		Validate.notNull(src,"image source must not be null");
+		Validate.notNull(src, "image source must not be null");
 		this.src = src;
 
 		this.extendedMetadata = extendedMetadata;
@@ -187,6 +192,7 @@ public class BlitlineImageJob {
 
 		/**
 		 * Specifies that this job should return extended metadata such as file size.
+		 *
 		 * @return this {@code Builder} object
 		 */
 		public Builder withExtendedMetadata() {
@@ -194,10 +200,40 @@ public class BlitlineImageJob {
 			return this;
 		}
 
+		/**
+		 * Build the job and apply one or more functions.
+		 *
+		 * @param functions
+		 *            the functions to apply to the job
+		 * @return a job specification object
+		 */
 		public BlitlineImageJob apply(Function... functions) {
 			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, extendedMetadata, postbackUrl);
 			job.apply(functions);
 			return job;
 		}
+
+		/**
+		 * Build the job from the specified source, but only attempt to read image metadata about the original.
+		 * This method uses the fixed image identifier "only-identify".
+		 *
+		 * @return a job specification that will only read and return metadata
+		 */
+		public BlitlineImageJob identifyMetadataOnly() {
+			return identifyMetadataOnly("only");
+		}
+
+		/**
+		 * Build the job from the specified source, but only attempt to read image metadata about the original.
+		 * This method appends "-identify" to the {@code identifierPart} to form the image identifier.
+		 *
+		 * @return a job specification that will only read and return metadata
+		 */
+		public BlitlineImageJob identifyMetadataOnly(String identifierPart) {
+			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, true, postbackUrl);
+			job.apply(Blitline.noOp().andSkipSave(identifierPart + IDENTIFY_ONLY_SUFFIX));
+			return job;
+		}
+
 	}
 }
