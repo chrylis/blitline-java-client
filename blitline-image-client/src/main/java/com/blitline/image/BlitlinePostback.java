@@ -82,6 +82,11 @@ public class BlitlinePostback {
 		this.images = images;
 	}
 
+	@JsonIgnore
+	public boolean isIdentifyOnly() {
+		return isSuccessful() && images.isEmpty();
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("BlitlinePostback[jobId=");

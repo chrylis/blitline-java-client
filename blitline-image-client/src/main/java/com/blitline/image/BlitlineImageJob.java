@@ -29,7 +29,7 @@ public class BlitlineImageJob {
 		Validate.notNull(applicationId, "application ID must not be null");
 		this.applicationId = applicationId;
 
-		Validate.notNull(src,"image source must not be null");
+		Validate.notNull(src, "image source must not be null");
 		this.src = src;
 
 		this.extendedMetadata = extendedMetadata;
@@ -187,6 +187,7 @@ public class BlitlineImageJob {
 
 		/**
 		 * Specifies that this job should return extended metadata such as file size.
+		 *
 		 * @return this {@code Builder} object
 		 */
 		public Builder withExtendedMetadata() {
@@ -194,9 +195,27 @@ public class BlitlineImageJob {
 			return this;
 		}
 
+		/**
+		 * Build the job and apply one or more functions.
+		 *
+		 * @param functions
+		 *            the functions to apply to the job
+		 * @return a job specification object
+		 */
 		public BlitlineImageJob apply(Function... functions) {
 			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, extendedMetadata, postbackUrl);
 			job.apply(functions);
+			return job;
+		}
+
+		/**
+		 * Build the job from the specified source, but only attempt to read image metadata about the original.
+		 *
+		 * @return a job specification that will only read and return metadata
+		 */
+		public BlitlineImageJob identifyMetadataOnly() {
+			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, true, postbackUrl);
+			job.apply(Blitline.noOp().andSkipSave("identify-metadata-only"));
 			return job;
 		}
 	}
