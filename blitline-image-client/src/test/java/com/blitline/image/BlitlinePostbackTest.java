@@ -98,4 +98,19 @@ public class BlitlinePostbackTest {
 		assertEquals(new Date(1355176258000L), meta.getDateCreated());
 		assertEquals("Canon EOS 20D", meta.getAllExif().get("Model"));
 	}
+
+	public static final String FAILED_IDENTIFY_ONLY_POSTBACK = "{\"results\":{"
+		+ "\"original_meta\":null,"
+		+ "\"images\":[],"
+		+ "\"job_id\":\"0RIgZBphpTr9yHoo3ddjnWg\","
+		+ "\"errors\":[\"Image processing failed. Failed to download from s3 (404: Not Found (https://somebucket.s3.amazonaws.com:443/mURrYXWEHbPAUCkhYnUAi))\"],"
+		+ "\"failed_image_identifiers\":[\"mURrYXWEHbPAUCkhYnUAi-identify\"]}}";
+
+	@Test
+	public void testFailingIdentifyOnly() throws IOException {
+		BlitlinePostback postback = mapper.readValue(FAILED_IDENTIFY_ONLY_POSTBACK, BlitlinePostback.class);
+		assertFalse(postback.isSuccessful());
+		assertTrue(postback.isIdentifyOnly());
+		assertNull(postback.getOriginalMeta());
+	}
 }

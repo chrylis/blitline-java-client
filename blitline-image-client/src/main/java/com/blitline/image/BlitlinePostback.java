@@ -84,7 +84,10 @@ public class BlitlinePostback {
 
 	@JsonIgnore
 	public boolean isIdentifyOnly() {
-		return isSuccessful() && images.isEmpty();
+		return isSuccessful() ?
+			images.isEmpty() :
+			(failedImageIdentifiers.size() == 1 &&
+			failedImageIdentifiers.iterator().next().endsWith(BlitlineImageJob.IDENTIFY_ONLY_SUFFIX));
 	}
 
 	@Override
@@ -288,10 +291,11 @@ public class BlitlinePostback {
 			if ((token = jp.getCurrentToken()) != JsonToken.START_ARRAY)
 				throw new JsonMappingException("expected start of array, but found " + token, jp.getCurrentLocation());
 
-			while((token = jp.nextToken()) == JsonToken.START_ARRAY) {
+			while ((token = jp.nextToken()) == JsonToken.START_ARRAY) {
 				map.put(jp.nextTextValue(), jp.nextTextValue());
-				if((token = jp.nextToken()) != JsonToken.END_ARRAY)
-					throw new JsonMappingException("expected a 2-valued array, but next token was a " + token, jp.getCurrentLocation());
+				if ((token = jp.nextToken()) != JsonToken.END_ARRAY)
+					throw new JsonMappingException("expected a 2-valued array, but next token was a " + token,
+						jp.getCurrentLocation());
 			}
 
 			return map;
