@@ -14,15 +14,17 @@ import org.springframework.stereotype.Component;
 import com.blitline.image.BlitlinePostback;
 import com.blitline.image.spring.BlitlineObjectMapperHolder;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class BlitlinePostbackHttpMessageConverter extends AbstractHttpMessageConverter<BlitlinePostback> {
 
-	@Autowired
-	private BlitlineObjectMapperHolder holder;
+	private final ObjectMapper blitlineObjectMapper;
 
-	public BlitlinePostbackHttpMessageConverter() {
+	@Autowired
+	public BlitlinePostbackHttpMessageConverter(final BlitlineObjectMapperHolder holder) {
 		super(MediaType.APPLICATION_JSON);
+		this.blitlineObjectMapper = holder.getMapper();
 	}
 
 	@Override
@@ -34,7 +36,7 @@ public class BlitlinePostbackHttpMessageConverter extends AbstractHttpMessageCon
 	protected BlitlinePostback readInternal(Class<? extends BlitlinePostback> clazz, HttpInputMessage inputMessage)
 		throws IOException, HttpMessageNotReadableException {
 		try {
-			return holder.getMapper().readValue(inputMessage.getBody(), clazz);
+			return blitlineObjectMapper.readValue(inputMessage.getBody(), clazz);
 		} catch (JsonProcessingException e) {
 			throw new HttpMessageNotReadableException("error reading JSON", e);
 		}
@@ -44,7 +46,7 @@ public class BlitlinePostbackHttpMessageConverter extends AbstractHttpMessageCon
 	protected void writeInternal(BlitlinePostback t, HttpOutputMessage outputMessage) throws IOException,
 		HttpMessageNotWritableException {
 		try {
-			holder.getMapper().writeValue(outputMessage.getBody(), t);
+			blitlineObjectMapper.writeValue(outputMessage.getBody(), t);
 		} catch (JsonProcessingException e) {
 			throw new HttpMessageNotWritableException("error writing JSON", e);
 		}

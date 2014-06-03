@@ -7,11 +7,13 @@ import org.apache.commons.lang3.Validate;
 
 /**
  * Execute an arbitrary command inside the Blitline job container.
- * 
+ *
  * @author Christopher Smith
- * 
+ *
  */
 public class RunExecutable extends AbstractScriptFunction {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @param executableCommand

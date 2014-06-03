@@ -18,9 +18,9 @@ import com.blitline.image.spring.postback.BlitlinePostbackHandler;
 public class BlitlinePostbackController {
 	private final Log log = LogFactory.getLog(BlitlinePostbackController.class);
 
-	@Autowired
 	private BlitlinePostbackHandler handler;
 
+	@Autowired
 	public void setHandler(BlitlinePostbackHandler handler) {
 		this.handler = handler;
 	}

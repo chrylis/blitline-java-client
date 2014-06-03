@@ -8,17 +8,22 @@ import org.springframework.stereotype.Component;
 
 import com.blitline.image.BlitlinePostback;
 import com.blitline.image.spring.BlitlineObjectMapperHolder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class BlitlinePostbackConverter implements Converter<String, BlitlinePostback>{
 
+	private final ObjectMapper blitlineObjectMapper;
+
 	@Autowired
-	private BlitlineObjectMapperHolder holder;
+	public BlitlinePostbackConverter(final BlitlineObjectMapperHolder holder) {
+		blitlineObjectMapper = holder.getMapper();
+	}
 
 	@Override
 	public BlitlinePostback convert(String source) {
 		try {
-			return holder.getMapper().readValue(source, BlitlinePostback.class);
+			return blitlineObjectMapper.readValue(source, BlitlinePostback.class);
 		} catch (IOException e) {
 			throw new IllegalArgumentException(e);
 		}

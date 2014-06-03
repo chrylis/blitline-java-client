@@ -1,5 +1,6 @@
 package com.blitline.image;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +16,16 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonRootName("results")
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 @JsonInclude(Include.NON_EMPTY)
-public class BlitlinePostResults {
+public class BlitlinePostResults implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String error;
 
 	private String jobId;
 
 	private List<Image> images;
-	
+
 	private Map<String,String> imageDestinations;
 
 	public String getJobId() {
@@ -40,17 +43,17 @@ public class BlitlinePostResults {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-	
+
 	@JsonIgnore
 	public Map<String,String> getImageDestinations() {
 		if(imageDestinations == null && images != null) {
 			Map<String, String> ids = new HashMap<String, String>();
 			for(Image image : images)
 				ids.put(image.getImageIdentifier(), image.getS3Url());
-			
+
 			imageDestinations = Collections.unmodifiableMap(ids);
 		}
-		
+
 		return imageDestinations;
 	}
 
@@ -74,7 +77,7 @@ public class BlitlinePostResults {
 		} else {
 			sb.append("error=").append(error);
 		}
-		
+
 		return sb.append(']').toString();
 	}
 

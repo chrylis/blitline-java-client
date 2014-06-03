@@ -1,6 +1,9 @@
 package com.blitline.image.functions;
 
 public class ResizeToFit extends AbstractFunction {
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String getName() {
 		return "resize_to_fit";
@@ -9,7 +12,7 @@ public class ResizeToFit extends AbstractFunction {
 	/**
 	 * Specify the maximum dimensions of the resized image. You may specify zero for one of the dimensions to leave it
 	 * unconstrained.
-	 * 
+	 *
 	 * @param maxWidth
 	 *            the maximum width of the resulting image, or zero for any width
 	 * @param maxHeight
@@ -29,7 +32,7 @@ public class ResizeToFit extends AbstractFunction {
 	/**
 	 * Do not upscale the image if the original is already smaller than the maximum dimensions. Sets the {@code only_shrink_larger}
 	 * JSON option.
-	 * 
+	 *
 	 * @return {@literal this}
 	 */
 	public ResizeToFit doNotUpscale() {

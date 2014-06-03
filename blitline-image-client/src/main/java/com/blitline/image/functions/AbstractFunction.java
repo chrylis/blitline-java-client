@@ -21,6 +21,8 @@ import com.blitline.image.SavedImage;
  */
 public abstract class AbstractFunction implements Function {
 
+	private static final long serialVersionUID = 1L;
+
 	protected Map<String, Object> params = new HashMap<String, Object>();
 
 	private SavedImage saveLocation;

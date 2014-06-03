@@ -1,6 +1,7 @@
 package com.blitline.image;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +24,9 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonRootName("results")
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
-public class BlitlinePostback {
+public class BlitlinePostback implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public static final SimpleDateFormat BLITLINE_DATE_FORMAT = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss", Locale.US);
 
@@ -103,7 +106,10 @@ public class BlitlinePostback {
 	}
 
 	@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
-	public static class OriginalMetadata {
+	public static class OriginalMetadata implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
 		private Integer width, height, filesize;
 		private Date dateCreated;
 		private Map<String, String> allExif = Collections.emptyMap();
@@ -166,7 +172,10 @@ public class BlitlinePostback {
 	}
 
 	@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
-	public static class Image {
+	public static class Image implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
 		private String imageIdentifier;
 		private String s3Url;
 		private ImageMeta meta;

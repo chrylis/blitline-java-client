@@ -44,40 +44,40 @@ import com.blitline.image.spring.postback.BlitlinePostbackUrlProvider;
 @Service
 public class BlitlineImageService {
 
-	@Value("${blitline.applicationId:no application ID set!}")
 	private String applicationId;
-
-	@Autowired(required = false)
-	private BlitlinePostbackUrlProvider postbackUrlProvider;
-
-	@Value("${blitline.s3sourceBucket:#{null}}")
-	private String s3bucket;
-
-	private boolean alwaysExtendedMetadata = false;
 
 	public String getApplicationId() {
 		return applicationId;
 	}
 
+	@Value("${blitline.applicationId:no application ID set!}")
 	public void setApplicationId(String applicationId) {
 		this.applicationId = applicationId;
 	}
+
+	private BlitlinePostbackUrlProvider postbackUrlProvider;
 
 	public BlitlinePostbackUrlProvider getPostbackUrlProvider() {
 		return postbackUrlProvider;
 	}
 
+	@Autowired(required = false)
 	public void setPostbackUrlProvider(BlitlinePostbackUrlProvider postbackUrlProvider) {
 		this.postbackUrlProvider = postbackUrlProvider;
 	}
+
+	private String s3bucket;
 
 	public String getS3bucket() {
 		return s3bucket;
 	}
 
+	@Value("${blitline.s3sourceBucket:#{null}}")
 	public void setS3bucket(String s3bucket) {
 		this.s3bucket = s3bucket;
 	}
+
+	private boolean alwaysExtendedMetadata = false;
 
 	public boolean isAlwaysExtendedMetadata() {
 		return alwaysExtendedMetadata;
@@ -95,14 +95,14 @@ public class BlitlineImageService {
 
 	public static final URI BLITLINE_SUBMIT_POST_URI = URI.create("http://api.blitline.com/job");
 
-	@Autowired(required = false)
-	@BlitlineApi
 	private RestTemplate blitlineRest;
 
 	public RestTemplate getBlitlineRest() {
 		return blitlineRest;
 	}
 
+	@Autowired(required = false)
+	@BlitlineApi
 	public void setBlitlineRest(RestTemplate blitlineRest) {
 		this.blitlineRest = blitlineRest;
 	}
