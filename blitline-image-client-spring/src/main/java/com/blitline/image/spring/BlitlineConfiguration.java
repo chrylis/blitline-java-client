@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -33,8 +34,14 @@ import com.blitline.image.spring.web.BlitlinePostbackController;
 @ComponentScan(excludeFilters =
 	@Filter(type = FilterType.ASSIGNABLE_TYPE, value = BlitlinePostbackController.class))
 @PropertySource(value = "classpath:/blitline.properties", ignoreResourceNotFound = true)
+@DependsOn("blitlineObjectMapperHolder")
 public class BlitlineConfiguration {
 
+	/**
+	 * This field is not constructor-injected because Spring throws a tantrum if an {@code @Configuration} class does not have a
+	 * default constructor. Reasonably safe since this class is the one causing the component-scan that picks it up, and any
+	 * problems with it need to fail the JUnit tests hard.
+	 */
 	@Autowired
 	private BlitlineObjectMapperHolder objectMapperHolder;
 
@@ -54,8 +61,6 @@ public class BlitlineConfiguration {
 
 		return new RestTemplate(l);
 	}
-
-
 
 	/**
 	 * Adds a postback-URL provider if a URL is available via the property.
