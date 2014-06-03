@@ -1,5 +1,6 @@
 package com.blitline.image;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,22 +9,24 @@ import org.apache.commons.lang3.Validate;
 /**
  * Value object representing an Amazon S3 location. An instance of this class may be used for the initial source image, any of the
  * {@code src} parameters of the various functions, or a location to save to.
- * 
+ *
  * @author Christopher Smith
- * 
+ *
  */
-public class S3Location {
+public class S3Location implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Pattern fragment matching a valid new-style S3 bucket name (3 to 63 DNS characters).
 	 */
 	public static final String S3_BUCKET_SUBPATTERN = "([\\w\\d\\._-]{3,63})";
-	
+
 	/**
 	 * Pattern matching a valid S3 bucket name ({@link #S3_BUCKET_SUBPATTERN} with start and end markers).
 	 */
 	public static final Pattern S3_BUCKET_PATTERN = Pattern.compile("\\A" + S3_BUCKET_SUBPATTERN + "\\z");
-	
+
 	/**
 	 * Pattern matching a valid S3 URL of the form {@literal s3://bucket-name/key/name}.
 	 */
@@ -54,7 +57,7 @@ public class S3Location {
 	public String getKey() {
 		return key;
 	}
-	
+
 	public String getName() {
 		return "s3";
 	}

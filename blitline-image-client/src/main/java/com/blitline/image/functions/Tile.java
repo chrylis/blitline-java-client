@@ -5,6 +5,9 @@ import java.net.URI;
 import org.apache.commons.lang3.Validate;
 
 public class Tile extends AbstractFunction {
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String getName() {
 		return "tile";
@@ -13,7 +16,7 @@ public class Tile extends AbstractFunction {
 	public Tile(String src) {
 		params.put("src", src);
 	}
-	
+
 	public Tile(URI src) {
 		this(src.toString());
 	}

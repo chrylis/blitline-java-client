@@ -3,6 +3,9 @@ package com.blitline.image.functions;
 import org.apache.commons.lang3.Validate;
 
 public class ContrastStretchChannel extends AbstractFunction {
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String getName() {
 		return "contrast_stretch_channel";

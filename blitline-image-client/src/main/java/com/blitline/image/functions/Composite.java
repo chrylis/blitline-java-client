@@ -11,6 +11,9 @@ import com.blitline.image.functions.params.Gravity;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Composite extends AbstractFunction {
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String getName() {
 		return "composite";
@@ -366,7 +369,7 @@ public class Composite extends AbstractFunction {
 		private Operation(String blitlineValue) {
 			this.blitlineValue = blitlineValue;
 		}
-		
+
 		@JsonValue
 		@Override
 		public String toString() {

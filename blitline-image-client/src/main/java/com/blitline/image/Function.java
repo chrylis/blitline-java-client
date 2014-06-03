@@ -1,5 +1,6 @@
 package com.blitline.image;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 @JsonInclude(Include.NON_EMPTY)
 @JsonFormat(shape = Shape.STRING)
-public interface Function {
+public interface Function extends Serializable {
 	String getName();
 
 	Map<String, Object> getParams();

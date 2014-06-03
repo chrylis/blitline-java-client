@@ -1,18 +1,22 @@
 package com.blitline.image;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
-public class AzureLocation {
+public class AzureLocation implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public final String accountName, sharedAccessSignature;
-	
+
 	public AzureLocation(String accountName, String sharedAccessSignature) {
 		this.accountName = accountName;
 		this.sharedAccessSignature = sharedAccessSignature;
 	}
-	
+
 	public static AzureLocation of(String accountName, String sharedAccessSignature) {
 		return new AzureLocation(accountName, sharedAccessSignature);
 	}
@@ -20,7 +24,7 @@ public class AzureLocation {
 	public String getAccountName() {
 		return accountName;
 	}
-	
+
 	public String getSharedAccessSignature() {
 		return sharedAccessSignature;
 	}

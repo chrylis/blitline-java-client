@@ -1,5 +1,6 @@
 package com.blitline.image;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +18,9 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonRootName("json")
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 @JsonInclude(Include.NON_EMPTY)
-public class BlitlineImageJob {
+public class BlitlineImageJob implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The postback class considers any image identifier ending in this string to be an "identify-only" job.

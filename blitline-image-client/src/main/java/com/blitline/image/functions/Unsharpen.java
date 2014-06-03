@@ -3,6 +3,9 @@ package com.blitline.image.functions;
 import org.apache.commons.lang3.Validate;
 
 public class Unsharpen extends AbstractGaussianFunction<Unsharpen> {
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String getName() {
 		return "unsharp_mask";
@@ -18,7 +21,7 @@ public class Unsharpen extends AbstractGaussianFunction<Unsharpen> {
 		params.put("amount", amount);
 		return this;
 	}
-	
+
 	public Unsharpen threshold(double threshold) {
 		Validate.inclusiveBetween(0.0, 1.0, threshold);
 		params.put("threshold", threshold);
