@@ -1,13 +1,15 @@
 package com.blitline.image.spring.web;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blitline.image.BlitlinePostback;
@@ -30,9 +32,11 @@ public class BlitlinePostbackController {
 	}
 
 	@RequestMapping("/image")
-	public Object handlePostback(@RequestBody BlitlinePostback postback, HttpServletRequest req) throws Exception {
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public HttpHeaders handlePostback(@RequestBody BlitlinePostback postback) throws Exception {
 		log.info("handling Blitline postback for job " + postback.getJobId());
-		return handler.handlePostback(postback, req);
+		handler.handlePostback(postback);
+		return new HttpHeaders();
 	}
 
 	@PostConstruct

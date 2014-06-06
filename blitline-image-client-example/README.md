@@ -34,7 +34,7 @@ result is saved to the image identifier provided in the path. The optional
 harbor photograph used in Blitline examples. The URI for the example is
 
 ````
-http://localhost:8080/blitline/{imageIdentifier}[?sourceImage=ENCODED_URL&postback=ENCODED_URL]
+http://localhost:8080/blitline/{imageIdentifier}[?sourceImage=ENCODED_URL&postbackUrl=ENCODED_URL]
 ````
 
 The endpoint returns the job confirmation received from Blitline, which has

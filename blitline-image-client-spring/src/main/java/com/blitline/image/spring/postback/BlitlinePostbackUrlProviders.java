@@ -90,7 +90,7 @@ public class BlitlinePostbackUrlProviders {
 		public String getPostbackUrl() {
 			if (url == null)
 				try {
-					url = linkTo(methodOn(BlitlinePostbackController.class).handlePostback(null, null)).toString();
+					url = linkTo(methodOn(BlitlinePostbackController.class).handlePostback(null)).toString();
 					log.info("bound to postback URL " + url);
 				} catch (IllegalStateException e) {
 					log.warn("tried to find postback URL outside of an HTTP request context; will retry");
@@ -124,7 +124,7 @@ public class BlitlinePostbackUrlProviders {
 		public String getPostbackUrl() {
 			String url = null;
 			try {
-				url = linkTo(methodOn(BlitlinePostbackController.class).handlePostback(null, null)).toString();
+				url = linkTo(methodOn(BlitlinePostbackController.class).handlePostback(null)).toString();
 				log.info("using postback URL " + url + " for this request");
 			} catch (Exception e) {
 				log.error("couldn't find postback URL", e);
