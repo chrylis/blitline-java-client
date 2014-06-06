@@ -1,7 +1,5 @@
 package com.blitline.image.example;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +23,8 @@ public class ExampleLauncher {
 	public BlitlinePostbackHandler blitlinePostbackHandler() {
 		return new BlitlinePostbackHandler() {
 			@Override
-			public Object handlePostback(BlitlinePostback postback, HttpServletRequest req) {
+			public void handlePostback(BlitlinePostback postback) {
 				System.out.println(postback);
-				return "";
 			}
 		};
 	}
