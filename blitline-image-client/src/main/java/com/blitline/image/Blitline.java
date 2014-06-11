@@ -36,6 +36,7 @@ import com.blitline.image.functions.Quantize;
 import com.blitline.image.functions.Rectangle;
 import com.blitline.image.functions.Resample;
 import com.blitline.image.functions.Resize;
+import com.blitline.image.functions.ResizeToFill;
 import com.blitline.image.functions.ResizeToFit;
 import com.blitline.image.functions.Rotate;
 import com.blitline.image.functions.RunExecutable;
@@ -51,12 +52,12 @@ import com.blitline.image.functions.Vignette;
 import com.blitline.image.functions.Watermark;
 
 public class Blitline {
-	
+
 	/**
 	 * The API version this library will invoke. 1.20 fixed error reporting.
 	 */
 	public static final String BLITLINE_API_VERSION = "1.20";
-	
+
 	private Blitline() {
 	}
 
@@ -162,7 +163,7 @@ public class Blitline {
 
 	/**
 	 * Invokes ImageMagick's {@code -enhance} option; most applications will prefer {@link #autoEnhance()}.
-	 * 
+	 *
 	 * @return the singleton instance of the {@link Enhance} function
 	 */
 	public static Enhance enhance() {
@@ -243,6 +244,10 @@ public class Blitline {
 
 	public static Resize resizeTo(int width, int height) {
 		return new Resize(width, height);
+	}
+
+	public static ResizeToFill resizeToFill(int width, int maxHeight) {
+		return new ResizeToFill(width, maxHeight);
 	}
 
 	public static ResizeToFit resizeToFit(int maxWidth, int maxHeight) {
