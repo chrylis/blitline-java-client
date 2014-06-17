@@ -35,7 +35,8 @@ public class S3Location implements Serializable {
 	public final String bucket, key;
 
 	public S3Location(String bucket, String key) {
-		Validate.isTrue(S3_BUCKET_PATTERN.matcher(bucket).matches(), "bucket parameter is not a valid S3 bucket name");
+		Validate.isTrue(S3_BUCKET_PATTERN.matcher(bucket).matches(), "bucket parameter '" + bucket
+			+ "' is not a valid S3 bucket name");
 		this.bucket = bucket;
 		this.key = key;
 	}
