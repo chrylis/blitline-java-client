@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -106,6 +107,7 @@ public class BlitlinePostback implements Serializable {
 	}
 
 	@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class OriginalMetadata implements Serializable {
 
 		private static final long serialVersionUID = 1L;
