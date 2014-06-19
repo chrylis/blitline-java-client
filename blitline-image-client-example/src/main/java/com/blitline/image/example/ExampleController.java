@@ -45,7 +45,7 @@ public class ExampleController implements ApplicationContextAware {
 	/**
 	 * Applies a canned function chain and saves the result with the {@code imageIdentifer} provided on the path.
 	 *
-	 * @param imageIdentifer
+	 * @param imageIdentifier
 	 *            the identifier to use for the Blitline job
 	 * @param sourceImage
 	 *            the URL of the source image; defaults to the stock image of boys at the harbor
@@ -54,8 +54,7 @@ public class ExampleController implements ApplicationContextAware {
 	 * @return the results returned from dispatching the job
 	 */
 	@RequestMapping("/blitline/{imageIdentifier}")
-	public BlitlinePostResults runJob(
-		@PathVariable String imageIdentifier,
+	public BlitlinePostResults runJob(@PathVariable String imageIdentifier,
 		@RequestParam(defaultValue = BLITLINE_SAMPLE_IMAGE_URL) String sourceImage,
 		@RequestParam(required = false) String postbackUrl
 		) {
