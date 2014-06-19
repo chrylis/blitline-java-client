@@ -15,7 +15,7 @@ public class SepiaTone extends AbstractFunction {
 	 * @param threshold
 	 *            the sepia-tone threshold; 0.80 is a good default
 	 * @return {@literal this}
-	 * @see <a href="http://www.imagemagick.org/script/command-line-options.php#sepia-tone>the ImageMagick documentation</a>
+	 * @see <a href="http://www.imagemagick.org/script/command-line-options.php#sepia-tone">the ImageMagick documentation</a>
 	 */
 	public SepiaTone threshold(double threshold) {
 		params.put("threshold", threshold);

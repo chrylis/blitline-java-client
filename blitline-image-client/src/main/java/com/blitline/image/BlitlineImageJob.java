@@ -230,6 +230,8 @@ public class BlitlineImageJob implements Serializable {
 		 * Build the job from the specified source, but only attempt to read image metadata about the original.
 		 * This method appends "-identify" to the {@code identifierPart} to form the image identifier.
 		 *
+		 * @param identifierPart the prefix to use for the image identifier
+		 *
 		 * @return a job specification that will only read and return metadata
 		 */
 		public BlitlineImageJob identifyMetadataOnly(String identifierPart) {
