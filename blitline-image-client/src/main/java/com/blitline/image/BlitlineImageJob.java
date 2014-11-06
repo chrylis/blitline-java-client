@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 
@@ -20,225 +22,252 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonInclude(Include.NON_EMPTY)
 public class BlitlineImageJob implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * The postback class considers any image identifier ending in this string to be an "identify-only" job.
-	 */
-	public static final String IDENTIFY_ONLY_SUFFIX = "-identify";
+    /**
+     * The postback class considers any image identifier ending in this string to be an "identify-only" job.
+     */
+    public static final String IDENTIFY_ONLY_SUFFIX = "-identify";
 
-	private final String applicationId;
-	private final Object src;
-	private final Boolean extendedMetadata;
-	private final String postbackUrl;
-	private final List<Function> functions = new LinkedList<Function>();
+    private final String applicationId;
+    private final Object src;
+    private final Boolean extendedMetadata;
+    private final String postbackUrl;
+    private final Map<String, String> postbackHeaders;
+    private final List<Function> functions = new LinkedList<Function>();
 
-	public BlitlineImageJob(String applicationId, Object src, Boolean extendedMetadata, String postbackUrl) {
-		Validate.notNull(applicationId, "application ID must not be null");
-		this.applicationId = applicationId;
+    public BlitlineImageJob(String applicationId, Object src, Boolean extendedMetadata, String postbackUrl) {
+        this(applicationId, src, extendedMetadata, postbackUrl, null);
+    }
 
-		Validate.notNull(src, "image source must not be null");
-		this.src = src;
+    public BlitlineImageJob(String applicationId, Object src, Boolean extendedMetadata, String postbackUrl, Map<String, String> postbackHeaders) {
+        Validate.notNull(applicationId, "application ID must not be null");
+        this.applicationId = applicationId;
 
-		this.extendedMetadata = extendedMetadata;
+        Validate.notNull(src, "image source must not be null");
+        this.src = src;
 
-		this.postbackUrl = postbackUrl;
-	}
+        this.extendedMetadata = extendedMetadata;
 
-	public String getApplicationId() {
-		return applicationId;
-	}
+        this.postbackUrl = postbackUrl;
 
-	public Object getSrc() {
-		return src;
-	}
+        this.postbackHeaders = postbackHeaders == null ? null : Collections.unmodifiableMap(new HashMap<String, String>(postbackHeaders));
+    }
 
-	public Boolean getExtendedMetadata() {
-		return extendedMetadata;
-	}
+    public String getApplicationId() {
+        return applicationId;
+    }
 
-	public String getPostbackUrl() {
-		return postbackUrl;
-	}
+    public Object getSrc() {
+        return src;
+    }
 
-	public String getV() {
-		return Blitline.BLITLINE_API_VERSION;
-	}
+    public Boolean getExtendedMetadata() {
+        return extendedMetadata;
+    }
 
-	public List<Function> getFunctions() {
-		return Collections.unmodifiableList(functions);
-	}
+    public String getPostbackUrl() {
+        return postbackUrl;
+    }
 
-	public void apply(Function... functions) {
-		this.functions.addAll(Arrays.asList(functions));
-	}
+    public Map<String, String> getPostbackHeaders() {
+        return postbackHeaders;
+    }
 
-	public static Builder forApplication(String applicationId) {
-		return new Builder(applicationId);
-	}
+    public String getV() {
+        return Blitline.BLITLINE_API_VERSION;
+    }
 
-	/**
-	 * Fluent builder class for a {@link BlitlineImageJob} instance.
-	 *
-	 * @author Christopher Smith
-	 *
-	 */
-	public static class Builder {
-		private final String applicationId;
+    public List<Function> getFunctions() {
+        return Collections.unmodifiableList(functions);
+    }
 
-		private Object src;
+    public void apply(Function... functions) {
+        this.functions.addAll(Arrays.asList(functions));
+    }
 
-		private Boolean extendedMetadata;
+    public static Builder forApplication(String applicationId) {
+        return new Builder(applicationId);
+    }
 
-		private String postbackUrl;
+    /**
+     * Fluent builder class for a {@link BlitlineImageJob} instance.
+     *
+     * @author Christopher Smith
+     *
+     */
+    public static class Builder {
+        private final String applicationId;
 
-		/**
-		 * Constructs a {@code Builder} instance for a single {@code Job}.
-		 *
-		 * @param applicationId
-		 *            your Blitline application ID key
-		 */
-		public Builder(String applicationId) {
-			this.applicationId = applicationId;
-		}
+        private Object src;
 
-		/**
-		 * Convenience method that simply calls the standard constructor.
-		 *
-		 * @param applicationId
-		 *            your Blitline application ID key
-		 * @return a new {@code Builder} instance that will build a {@code Job} for the provided key
-		 */
-		public static Builder forApplication(String applicationId) {
-			return new Builder(applicationId);
-		}
+        private Boolean extendedMetadata;
 
-		private void setSrc(Object src) {
-			if (this.src != null)
-				throw new IllegalStateException("src is already set");
+        private String postbackUrl;
 
-			this.src = src;
-		}
+        private Map<String, String> postbackHeaders = new HashMap<String, String>();
 
-		/**
-		 * Loads the image to be processed from the specified URL. The contents of the string are not encoded and are passed to the
-		 * API as-is.
-		 *
-		 * @param src
-		 *            the URL for the image to be processed
-		 * @return this {@code Builder} object
-		 */
-		public Builder fromUrl(String src) {
-			setSrc(src);
-			return this;
-		}
+        /**
+         * Constructs a {@code Builder} instance for a single {@code Job}.
+         *
+         * @param applicationId
+         *            your Blitline application ID key
+         */
+        public Builder(String applicationId) {
+            this.applicationId = applicationId;
+        }
 
-		/**
-		 * Loads the image to be processed from the specified URL. The contents of the {@code URL} object are not encoded and are
-		 * passed to the API as-is.
-		 *
-		 * @param src
-		 *            the URL for the image to be processed
-		 * @return this {@code Builder} object
-		 */
-		public Builder fromUrl(URI src) {
-			return fromUrl(src.toString());
-		}
+        /**
+         * Convenience method that simply calls the standard constructor.
+         *
+         * @param applicationId
+         *            your Blitline application ID key
+         * @return a new {@code Builder} instance that will build a {@code Job} for the provided key
+         */
+        public static Builder forApplication(String applicationId) {
+            return new Builder(applicationId);
+        }
 
-		/**
-		 * Loads the image to be processed from S3.
-		 *
-		 * @param src
-		 *            the S3 location to load the image from
-		 * @return this {@code Builder} object
-		 */
-		public Builder fromS3(S3Location src) {
-			setSrc(src);
-			return this;
-		}
+        private void setSrc(Object src) {
+            if (this.src != null)
+                throw new IllegalStateException("src is already set");
 
-		/**
-		 * Loads the image to be processed from S3.
-		 *
-		 * @param bucket
-		 *            the ID of the S3 bucket where the image is stored
-		 * @param key
-		 *            the image's object key within the S3 bucket
-		 * @return this {@code Builder} object
-		 */
-		public Builder fromS3(String bucket, String key) {
-			return fromS3(new S3Location(bucket, key));
-		}
+            this.src = src;
+        }
 
-		/**
-		 * Specifies an optional callback URL that will receive the notification of job completion or failure.
-		 *
-		 * @param postbackUrl
-		 *            the callback URL
-		 * @return this {@code Builder} object
-		 */
-		public Builder withPostback(String postbackUrl) {
-			this.postbackUrl = postbackUrl;
-			return this;
-		}
+        /**
+         * Loads the image to be processed from the specified URL. The contents of the string are not encoded and are passed to the
+         * API as-is.
+         *
+         * @param src
+         *            the URL for the image to be processed
+         * @return this {@code Builder} object
+         */
+        public Builder fromUrl(String src) {
+            setSrc(src);
+            return this;
+        }
 
-		/**
-		 * Specifies an optional callback URL that will receive the notification of job completion or failure.
-		 *
-		 * @param postbackUrl
-		 *            the callback URL
-		 * @return this {@code Builder} object
-		 */
-		public Builder withPostback(URI postbackUrl) {
-			return withPostback(postbackUrl.toString());
-		}
+        /**
+         * Loads the image to be processed from the specified URL. The contents of the {@code URL} object are not encoded and are
+         * passed to the API as-is.
+         *
+         * @param src
+         *            the URL for the image to be processed
+         * @return this {@code Builder} object
+         */
+        public Builder fromUrl(URI src) {
+            return fromUrl(src.toString());
+        }
 
-		/**
-		 * Specifies that this job should return extended metadata such as file size.
-		 *
-		 * @return this {@code Builder} object
-		 */
-		public Builder withExtendedMetadata() {
-			extendedMetadata = Boolean.TRUE;
-			return this;
-		}
+        /**
+         * Loads the image to be processed from S3.
+         *
+         * @param src
+         *            the S3 location to load the image from
+         * @return this {@code Builder} object
+         */
+        public Builder fromS3(S3Location src) {
+            setSrc(src);
+            return this;
+        }
 
-		/**
-		 * Build the job and apply one or more functions.
-		 *
-		 * @param functions
-		 *            the functions to apply to the job
-		 * @return a job specification object
-		 */
-		public BlitlineImageJob apply(Function... functions) {
-			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, extendedMetadata, postbackUrl);
-			job.apply(functions);
-			return job;
-		}
+        /**
+         * Loads the image to be processed from S3.
+         *
+         * @param bucket
+         *            the ID of the S3 bucket where the image is stored
+         * @param key
+         *            the image's object key within the S3 bucket
+         * @return this {@code Builder} object
+         */
+        public Builder fromS3(String bucket, String key) {
+            return fromS3(new S3Location(bucket, key));
+        }
 
-		/**
-		 * Build the job from the specified source, but only attempt to read image metadata about the original.
-		 * This method uses the fixed image identifier "only-identify".
-		 *
-		 * @return a job specification that will only read and return metadata
-		 */
-		public BlitlineImageJob identifyMetadataOnly() {
-			return identifyMetadataOnly("only");
-		}
+        /**
+         * Specifies an optional callback URL that will receive the notification of job completion or failure.
+         *
+         * @param postbackUrl
+         *            the callback URL
+         * @return this {@code Builder} object
+         */
+        public Builder withPostback(String postbackUrl) {
+            this.postbackUrl = postbackUrl;
+            return this;
+        }
 
-		/**
-		 * Build the job from the specified source, but only attempt to read image metadata about the original.
-		 * This method appends "-identify" to the {@code identifierPart} to form the image identifier.
-		 *
-		 * @param identifierPart the prefix to use for the image identifier
-		 *
-		 * @return a job specification that will only read and return metadata
-		 */
-		public BlitlineImageJob identifyMetadataOnly(String identifierPart) {
-			BlitlineImageJob job = new BlitlineImageJob(applicationId, src, true, postbackUrl);
-			job.apply(Blitline.noOp().andSkipSave(identifierPart + IDENTIFY_ONLY_SUFFIX));
-			return job;
-		}
+        /**
+         * Specifies an optional callback URL that will receive the notification of job completion or failure.
+         *
+         * @param postbackUrl
+         *            the callback URL
+         * @return this {@code Builder} object
+         */
+        public Builder withPostback(URI postbackUrl) {
+            return withPostback(postbackUrl.toString());
+        }
 
-	}
+        /**
+         * Add the specified HTTP header when Blitline sends the postback.
+         *
+         * @param name HTTP header name
+         * @param value HTTP header value
+         * @return this {@code Builder} object
+         */
+        public Builder withPostbackHeader(String name, String value) {
+            postbackHeaders.put(name, value);
+            return this;
+        }
+
+        /**
+         * Specifies that this job should return extended metadata such as file size.
+         *
+         * @return this {@code Builder} object
+         */
+        public Builder withExtendedMetadata() {
+            extendedMetadata = Boolean.TRUE;
+            return this;
+        }
+
+        /**
+         * Build the job and apply one or more functions.
+         *
+         * @param functions
+         *            the functions to apply to the job
+         * @return a job specification object
+         */
+        public BlitlineImageJob apply(Function... functions) {
+            Map<String, String> postbackHeaders = this.postbackHeaders.isEmpty() ? null : this.postbackHeaders;
+            BlitlineImageJob job = new BlitlineImageJob(applicationId, src, extendedMetadata, postbackUrl, postbackHeaders);
+            job.apply(functions);
+            return job;
+        }
+
+        /**
+         * Build the job from the specified source, but only attempt to read image metadata about the original.
+         * This method uses the fixed image identifier "only-identify".
+         *
+         * @return a job specification that will only read and return metadata
+         */
+        public BlitlineImageJob identifyMetadataOnly() {
+            return identifyMetadataOnly("only");
+        }
+
+        /**
+         * Build the job from the specified source, but only attempt to read image metadata about the original.
+         * This method appends "-identify" to the {@code identifierPart} to form the image identifier.
+         *
+         * @param identifierPart
+         *            the prefix to use for the image identifier
+         *
+         * @return a job specification that will only read and return metadata
+         */
+        public BlitlineImageJob identifyMetadataOnly(String identifierPart) {
+            BlitlineImageJob job = new BlitlineImageJob(applicationId, src, true, postbackUrl);
+            job.apply(Blitline.noOp().andSkipSave(identifierPart + IDENTIFY_ONLY_SUFFIX));
+            return job;
+        }
+
+    }
 }

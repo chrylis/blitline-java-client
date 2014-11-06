@@ -1,5 +1,8 @@
 package com.blitline.image.spring.postback;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 
@@ -25,7 +28,8 @@ public interface BlitlinePostbackHandler {
 	 * {@link EnableAsync} configuration annotation.
 	 *
 	 * @param postback the parsed postback information from the job
+	 * @param postbackHeaders headers described as "interesting" to the {@code BlitlinePostbackController}; if none are declared or match, an empty {@code Map}
 	 */
 	@Async
-	void handlePostback(BlitlinePostback postback) throws Exception;
+	void handlePostback(BlitlinePostback postback, Map<String, List<String>> postbackHeaders) throws Exception;
 }

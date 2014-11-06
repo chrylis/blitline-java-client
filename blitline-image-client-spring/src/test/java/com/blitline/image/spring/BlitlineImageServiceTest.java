@@ -1,6 +1,10 @@
 package com.blitline.image.spring;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +21,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.blitline.image.BlitlineImageJob;
+import com.blitline.image.BlitlinePostback;
 import com.blitline.image.S3Location;
+import com.blitline.image.spring.postback.BlitlinePostbackHandler;
 import com.blitline.image.spring.web.BlitlinePostbackController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,6 +42,16 @@ public class BlitlineImageServiceTest {
 		@Bean
 		public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 			return new PropertySourcesPlaceholderConfigurer();
+		}
+
+		@Bean
+		public BlitlinePostbackHandler blitlinePostbackHandler() {
+		    return new BlitlinePostbackHandler() {
+                @Override
+                public void handlePostback(BlitlinePostback postback, Map<String, List<String>> postbackHeaders) throws Exception {
+                    assertNotNull(postbackHeaders);
+                }
+            };
 		}
 	}
 
