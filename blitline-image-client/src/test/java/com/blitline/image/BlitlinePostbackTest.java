@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,6 +30,7 @@ public class BlitlinePostbackTest {
 		mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
 		mapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
 		mapper.setDateFormat(BlitlinePostback.BLITLINE_DATE_FORMAT);
+		mapper.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
 	}
 
 	public static final String SUCCESS_POSTBACK_CONTENT = "{\"results\":"
