@@ -1,6 +1,8 @@
 package com.blitline.image;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -23,11 +25,16 @@ public class SavedImage implements Serializable {
 	public final Integer quality;
 	public final Boolean saveMetadata;
 	public final Boolean skip;
+	public final Map<String, Object> setExif;
 
 	public final S3Location s3Destination;
 	public final AzureLocation azureDestination;
 
 	public SavedImage(String imageIdentifier, Integer quality, boolean saveMetadata, boolean skip, S3Location s3Destination, AzureLocation azureDestination) {
+	    this(imageIdentifier, quality, saveMetadata, skip, s3Destination, azureDestination, null);
+	}
+
+	public SavedImage(String imageIdentifier, Integer quality, boolean saveMetadata, boolean skip, S3Location s3Destination, AzureLocation azureDestination, Map<String, Object> setExif) {
 		if(s3Destination != null && azureDestination != null)
 			throw new IllegalArgumentException("only one destination location may be specified");
 
@@ -40,6 +47,8 @@ public class SavedImage implements Serializable {
 
 		this.s3Destination = s3Destination;
 		this.azureDestination = azureDestination;
+
+		this.setExif = setExif;
 	}
 
 	public static Builder withId(String imageIdentifier) {
@@ -50,6 +59,7 @@ public class SavedImage implements Serializable {
 		private final String imageIdentifier;
 		private Integer quality;
 		private boolean saveMetadata = false;
+		private Map<String, Object> exif = new HashMap<String, Object>();
 
 		public Builder(String imageIdentifier) {
 			this.imageIdentifier = imageIdentifier;
@@ -65,8 +75,17 @@ public class SavedImage implements Serializable {
 			return this;
 		}
 
+		public Builder withExifHeader(String key, Object value) {
+		    exif.put(key, value);
+		    return this;
+		}
+
+		private Map<String, Object> exifOrNull() {
+		    return exif.isEmpty() ? null : exif;
+		}
+
 		public SavedImage toS3(S3Location s3Destination) {
-			return new SavedImage(imageIdentifier, quality, saveMetadata, false, s3Destination, null);
+			return new SavedImage(imageIdentifier, quality, saveMetadata, false, s3Destination, null, exifOrNull());
 		}
 
 		public SavedImage toS3(String bucket, String key) {
@@ -74,7 +93,7 @@ public class SavedImage implements Serializable {
 		}
 
 		public SavedImage toAzure(AzureLocation azureDestination) {
-			return new SavedImage(imageIdentifier, quality, saveMetadata, false, null, azureDestination);
+			return new SavedImage(imageIdentifier, quality, saveMetadata, false, null, azureDestination, exifOrNull());
 		}
 
 		public SavedImage toAzure(String accountName, String sharedAccessSignature) {
@@ -82,7 +101,7 @@ public class SavedImage implements Serializable {
 		}
 
 		public SavedImage toBlitlineContainer() {
-			return new SavedImage(imageIdentifier, quality, saveMetadata, false, null, null);
+			return new SavedImage(imageIdentifier, quality, saveMetadata, false, null, null, exifOrNull());
 		}
 
 		public SavedImage butSkipSave() {

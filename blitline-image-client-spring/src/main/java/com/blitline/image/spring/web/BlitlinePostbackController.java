@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blitline.image.BlitlinePostback;
 import com.blitline.image.spring.BlitlineApi;
+import com.blitline.image.spring.BlitlinePostbackHeader;
 import com.blitline.image.spring.postback.BlitlinePostbackHandler;
 
 /**
@@ -58,9 +58,10 @@ public class BlitlinePostbackController {
     private Collection<String> interestingHeaders = Collections.emptySet();
 
     @Autowired(required = false)
-    @BlitlineApi
-    public void setInterestingHeaders(Set<String> interestingHeaders) {
+    @BlitlinePostbackHeader
+    public void setInterestingHeaders(Collection<String> interestingHeaders) {
         this.interestingHeaders = Collections.unmodifiableSet(new HashSet<String>(interestingHeaders));
+        log.debug("the BlitlinePostbackController will pass through these HTTP headers: " + interestingHeaders);
     }
 
     public Collection<String> getInterestingHeaders() {

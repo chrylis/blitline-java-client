@@ -79,7 +79,7 @@ public class TestSerializer {
 			.fromUrl("http://cdn.blitline.com/filters/boys.jpeg")
 			.withPostback("http://gyahhowtdy.localtunnel.me/postback")
 			.apply(
-				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("SUCCESS")),
+				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResultTo(SavedImage.withId("SUCCESS").withExifHeader("exifHeader", 42).toBlitlineContainer())),
 //				Blitline.noOp().thenApply(Blitline.drawEllipse(150, 150, 200, 100).andSaveResult("FAILURE")),
 				Blitline.cropToSquare().gravity(Gravity.NORTH).andSaveResult("cropsquare")
 			);

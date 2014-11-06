@@ -54,9 +54,9 @@ import com.blitline.image.functions.Watermark;
 public class Blitline {
 
 	/**
-	 * The API version this library will invoke. 1.20 fixed error reporting.
+	 * The API version this library will invoke. 1.21 added the ability to append arbitrary EXIF to saved images.
 	 */
-	public static final String BLITLINE_API_VERSION = "1.20";
+	public static final String BLITLINE_API_VERSION = "1.21";
 
 	private Blitline() {
 	}

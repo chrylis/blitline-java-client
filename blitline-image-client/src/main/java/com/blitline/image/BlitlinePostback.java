@@ -214,6 +214,7 @@ public class BlitlinePostback implements Serializable {
 		}
 
 		@JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
+		@JsonIgnoreProperties(ignoreUnknown = true)
 		public static class ImageMeta {
 			private Integer width, height, filesize, depth, quality;
 			private String density;
