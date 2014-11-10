@@ -40,7 +40,8 @@ public class BlitlineImageJob implements Serializable {
         this(applicationId, src, extendedMetadata, postbackUrl, null);
     }
 
-    public BlitlineImageJob(String applicationId, Object src, Boolean extendedMetadata, String postbackUrl, Map<String, String> postbackHeaders) {
+    public BlitlineImageJob(String applicationId, Object src, Boolean extendedMetadata, String postbackUrl,
+        Map<String, String> postbackHeaders) {
         Validate.notNull(applicationId, "application ID must not be null");
         this.applicationId = applicationId;
 
@@ -51,7 +52,8 @@ public class BlitlineImageJob implements Serializable {
 
         this.postbackUrl = postbackUrl;
 
-        this.postbackHeaders = postbackHeaders == null ? null : Collections.unmodifiableMap(new HashMap<String, String>(postbackHeaders));
+        this.postbackHeaders = postbackHeaders == null ? null : Collections.unmodifiableMap(new HashMap<String, String>(
+            postbackHeaders));
     }
 
     public String getApplicationId() {
@@ -72,6 +74,21 @@ public class BlitlineImageJob implements Serializable {
 
     public Map<String, String> getPostbackHeaders() {
         return postbackHeaders;
+    }
+
+    /**
+     * Retrieve the value that will be set on the specified HTTP header on the job postback, or {@code null} if the named header is
+     * not set.
+     *
+     * @param name the name of the HTTP header
+     * @return
+     */
+    public String getPostbackHeader(String name) {
+        if (postbackHeaders == null) {
+            return null;
+        }
+
+        return postbackHeaders.get(name);
     }
 
     public String getV() {
@@ -211,8 +228,10 @@ public class BlitlineImageJob implements Serializable {
         /**
          * Add the specified HTTP header when Blitline sends the postback.
          *
-         * @param name HTTP header name
-         * @param value HTTP header value
+         * @param name
+         *            HTTP header name
+         * @param value
+         *            HTTP header value
          * @return this {@code Builder} object
          */
         public Builder withPostbackHeader(String name, String value) {
