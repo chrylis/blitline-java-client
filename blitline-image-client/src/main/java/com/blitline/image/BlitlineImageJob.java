@@ -283,10 +283,8 @@ public class BlitlineImageJob implements Serializable {
          * @return a job specification that will only read and return metadata
          */
         public BlitlineImageJob identifyMetadataOnly(String identifierPart) {
-            BlitlineImageJob job = new BlitlineImageJob(applicationId, src, true, postbackUrl);
-            job.apply(Blitline.noOp().andSkipSave(identifierPart + IDENTIFY_ONLY_SUFFIX));
-            return job;
+            this.withExtendedMetadata();
+            return apply(Blitline.noOp().andSkipSave(identifierPart + IDENTIFY_ONLY_SUFFIX));
         }
-
     }
 }
