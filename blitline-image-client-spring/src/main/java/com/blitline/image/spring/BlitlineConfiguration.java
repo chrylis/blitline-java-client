@@ -16,10 +16,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.blitline.image.spring.postback.BlitlinePostbackUrlProvider;
 import com.blitline.image.spring.postback.BlitlinePostbackUrlProviders;
 import com.blitline.image.spring.web.BlitlinePostbackController;
+import com.blitline.image.spring.web.BlitlinePostbackHttpMessageConverter;
 
 /**
  * This class provides Spring beans that configure a working Blitline client
@@ -75,5 +77,16 @@ public class BlitlineConfiguration {
 		public BlitlinePostbackUrlProvider blitlinePropertyBasedUrl() {
 			return BlitlinePostbackUrlProviders.fixedUrl(postbackUrl);
 		}
+	}
+
+	@Configuration
+	public static class BlitlineHttpMessageConverterConfiguration extends WebMvcConfigurerAdapter {
+	    @Autowired
+	    private BlitlinePostbackHttpMessageConverter blitlinePostbackConverter;
+
+	    @Override
+	    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+	        converters.add(0, blitlinePostbackConverter);
+	    }
 	}
 }

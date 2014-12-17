@@ -19,6 +19,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.blitline.image.BlitlineImageJob;
 import com.blitline.image.BlitlinePostback;
@@ -28,6 +29,7 @@ import com.blitline.image.spring.web.BlitlinePostbackController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = BlitlineImageServiceTest.TestConfig.class)
+@WebAppConfiguration
 public class BlitlineImageServiceTest {
 
 	@Autowired
