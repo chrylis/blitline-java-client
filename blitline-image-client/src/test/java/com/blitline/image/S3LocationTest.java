@@ -46,10 +46,15 @@ public class S3LocationTest {
 	public void testUrlBucketBadChar() {
 		S3Location.of("s3://asdf+asdf/foo");
 	}
-	
+
 	@Test
 	public void testUrl() {
 		assertEquals(EXPECTED, S3Location.of("s3://" + BUCKET_NAME + "/" + KEY_NAME));
 	}
 
+	@Test
+	public void testHeaders() {
+	    S3Location withHeaders = S3Location.of(BUCKET_NAME, KEY_NAME).withCacheControlHeader();
+	    assertEquals("public, max-age=31536000", withHeaders.getHeaders().get("Cache-Control"));
+	}
 }

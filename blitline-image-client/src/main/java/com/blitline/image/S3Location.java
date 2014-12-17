@@ -1,6 +1,9 @@
 package com.blitline.image;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,11 +37,18 @@ public class S3Location implements Serializable {
 
 	public final String bucket, key;
 
+	public final Map<String, String> headers;
+
 	public S3Location(String bucket, String key) {
-		Validate.isTrue(S3_BUCKET_PATTERN.matcher(bucket).matches(), "bucket parameter '" + bucket
-			+ "' is not a valid S3 bucket name");
-		this.bucket = bucket;
-		this.key = key;
+	    this(bucket, key, Collections.<String,String>emptyMap());
+	}
+
+	public S3Location(String bucket, String key, Map<String, String> headers) {
+        Validate.isTrue(S3_BUCKET_PATTERN.matcher(bucket).matches(), "bucket parameter '" + bucket
+            + "' is not a valid S3 bucket name");
+        this.bucket = bucket;
+        this.key = key;
+        this.headers = new HashMap<String, String>(headers);
 	}
 
 	public static S3Location of(String bucket, String key) {
@@ -57,6 +67,43 @@ public class S3Location implements Serializable {
 
 	public String getKey() {
 		return key;
+	}
+
+	public Map<String, String> getHeaders() {
+	    return Collections.unmodifiableMap(headers);
+	}
+
+	/**
+	 * Adds the specified header when writing the object to S3. This header
+	 * will be included when the object is served over HTTP.
+	 *
+	 * @param name the HTTP header's name
+	 * @param value the HTTP header's value
+	 * @return this {@code S3Location} object
+	 */
+	public S3Location withHeader(String name, String value) {
+	    headers.put(name, value);
+	    return this;
+	}
+
+	/**
+	 * The name of the HTTP Cache-Control header.
+	 */
+	public static final String CACHE_CONTROL_HEADER_NAME = "Cache-Control";
+
+	/**
+	 * A value for the Cache-Control header that enables caching by proxies for one year.
+	 * Suitable for static assets that will never change, such as uniquely-named images.
+	 */
+	public static final String CACHE_CONTROL_FOREVER_VALUE = "public, max-age=31536000";
+
+    /**
+     * Adds a canned "cache forever" Cache-Control header to the object in S3.
+     *
+     * @return this {@code S3Location} object
+     */
+	public S3Location withCacheControlHeader() {
+	    return withHeader(CACHE_CONTROL_HEADER_NAME, CACHE_CONTROL_FOREVER_VALUE);
 	}
 
 	public String getName() {
