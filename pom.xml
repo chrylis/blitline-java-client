@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.blitline</groupId>
     <artifactId>blitline-java-parent</artifactId>
-    <version>0.15.0</version>
+    <version>0.16.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Blitline Java client</name>
     <description>Java client libraries for Blitline</description>
