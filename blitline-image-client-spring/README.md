@@ -53,7 +53,7 @@ it can find in the Spring environment (see below).
 arguments.
 - If the `builtinPostback` property of the `@EnableBlitlineImageService`
 annotation is **not** set to `false`, a skeleton Spring MVC controller mapped
-to `/blitline/image`. This controller will accept the postbacks sent from
+to `/webhook/blitline/image`. This controller will accept the postbacks sent from
 Blitline and pass them on to a handler, which you must define.
 
 ####Properties
@@ -105,6 +105,20 @@ logic for what the system should do when a postback arrives. Register a bean
 implementing the `BlitlinePostbackHandler` interface, and it will be invoked
 whenever postbacks show up. See the example for a minimal implementation.
 
+You may be interested in custom HTTP headers that you specify to Blitline,
+such as a job-correlation ID. Simply register Spring beans of type `String`
+annotated with `@BlitlinePostbackHeader`, and any headers matching those
+names will be passed to the handler.
+
+Spring Integration's service-activator support can handle Blitline postbacks
+easily. Use the following declaration:
+
+````xml
+<int:gateway
+	service-interface="com.blitline.image.spring.postback.BlitlinePostbackHandler"
+    default-request-channel="your-postback-channel" />
+````
+
 #####Use your own endpoint
 
 If you want to heavily customize the postback handling, or if you would like
@@ -118,13 +132,9 @@ disable the built-in postback controller:
 In this case, if you want to use postbacks, you **must** specify the URL
 explicitly, as the system has no way of finding your custom endpoint.
 
-Spring Integration's inbound HTTP channel adapter can handle Blitline postbacks
-easily. Use the following declaration:
+####Security
 
-````xml
-<int-http:inbound-channel-adapter
-	path="/blitline"
-	channel="blitline-postback-announce"
-	request-payload-type="com.blitline.image.BlitlinePostback"
-	message-converters="blitlinePostbackHttpMessageConverter" />
-````
+Since postbacks will be coming in asynchronously, CSRF protection will need
+to be disabled for the postback endpoint. The built-in controller is mapped
+under `/webhook`, and it is suggested that `/webhook/**` be exempted from the
+CSRF policy and used to aggregate all such handlers.

@@ -40,7 +40,7 @@ API](https://www.blitline.com/docs/functions) will need to be reflected here.**
 
 BlitlineImageJob j = BlitlineImageJob.forApplication("myApplicationId")
     .fromUrl("http://cdn.blitline.com/filters/boys.jpeg") // also supports S3
-    .withPostback("https://backend.example.com/blitline") // for job status
+    .withPostback("https://backend.example.com/webhook/blitline/image") // for job status
     .apply( // function pipeline starts here
         Blitline.drawEllipse(150,150,200,100).andSaveResult("ellipse-overlay"),
         Blitline.cropToSquare().gravity(Gravity.SOUTHWEST).andSaveResult("square-color").thenApply(
@@ -49,14 +49,14 @@ BlitlineImageJob j = BlitlineImageJob.forApplication("myApplicationId")
                 )
             )
         );
-        
+
 String json = mapper.writeValueAsString(j);
 ````
 
 ````java
 // using Spring injection for identifiers and RestTemplate for HTTP operations
 
-final String IMAGE_IDENTIFIER = "ellipse-overlay"; 
+final String IMAGE_IDENTIFIER = "ellipse-overlay";
 
 @Autowired BlitlineImageService bis; // applicationId and optionally postbackUrl read from properties
 

@@ -39,7 +39,7 @@ import com.blitline.image.spring.postback.BlitlinePostbackHandler;
 @RequestMapping(BlitlinePostbackController.BASE_ENDPOINT)
 public class BlitlinePostbackController {
 
-    public static final String BASE_ENDPOINT = "/blitline";
+    public static final String BASE_ENDPOINT = "/webhook/blitline";
     public static final String IMAGE_PATH = "/image";
 
     private final Log log = LogFactory.getLog(BlitlinePostbackController.class);
