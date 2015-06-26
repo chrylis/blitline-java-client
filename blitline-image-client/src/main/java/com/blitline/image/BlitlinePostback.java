@@ -2,12 +2,10 @@ package com.blitline.image;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,8 +26,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 public class BlitlinePostback implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	public static final SimpleDateFormat BLITLINE_DATE_FORMAT = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss", Locale.US);
 
 	private OriginalMetadata originalMeta;
 
@@ -113,17 +109,19 @@ public class BlitlinePostback implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		private Integer width, height, filesize;
-		private Date dateCreated;
+
+		private Date isoDateCreated;
+
 		private Map<String, String> allExif = Collections.emptyMap();
 
 		public OriginalMetadata() {
 		}
 
-		public OriginalMetadata(Integer width, Integer height, Date dateCreated) {
+		public OriginalMetadata(Integer width, Integer height, Date isoDateCreated) {
 			this.width = width;
 			this.height = height;
-			if (dateCreated != null)
-				this.dateCreated = new Date(dateCreated.getTime());
+			if (isoDateCreated != null)
+				this.isoDateCreated = new Date(isoDateCreated.getTime());
 		}
 
 		public Integer getWidth() {
@@ -150,13 +148,19 @@ public class BlitlinePostback implements Serializable {
 			this.filesize = filesize;
 		}
 
+		@Deprecated
+		@JsonIgnore
 		public Date getDateCreated() {
-			return dateCreated;
+			return isoDateCreated;
 		}
 
-		public void setDateCreated(Date dateCreated) {
-			this.dateCreated = dateCreated;
+		public Date getIsoDateCreated() {
+		    return isoDateCreated;
 		}
+
+		public void setIsoDateCreated(Date isoDateCreated) {
+            this.isoDateCreated = isoDateCreated;
+        }
 
 		@JsonDeserialize(using = ExifDeserializer.class)
 		public void setAllExif(Map<String, String> allExif) {
@@ -169,7 +173,7 @@ public class BlitlinePostback implements Serializable {
 
 		@Override
 		public String toString() {
-			return "size " + width + 'x' + height + ", created " + dateCreated;
+			return "size " + width + 'x' + height + ", created " + isoDateCreated;
 		}
 	}
 

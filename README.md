@@ -6,6 +6,18 @@ currently has support for the Blitline image API.
 
 ##Updates
 
+###0.17.0
+
+EXIF date-and-time information is presented in a format that is usually
+`yyyy:MM:dd HH:mm:ss` but can vary, including ISO8601-style formats. This library
+formerly tried to parse the conventional date format out of postback information,
+but this was unreliable.
+
+Blitline now uses the Ruby Chronic library to guess the date format server-side
+and returns a reliable ISO8601-formatted date string. This is now available as
+`OriginalMetadata#getIsoDateCreated()`. The older `getDateCreated()` is
+deprecated and forwards to the new method.
+
 ###0.16.0
 
 This release **moves the default Spring endpoint** to `/webhook/blitline/image`

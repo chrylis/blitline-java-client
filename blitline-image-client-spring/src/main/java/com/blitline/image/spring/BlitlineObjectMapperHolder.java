@@ -2,7 +2,6 @@ package com.blitline.image.spring;
 
 import org.springframework.stereotype.Component;
 
-import com.blitline.image.BlitlinePostback;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,7 +24,6 @@ public class BlitlineObjectMapperHolder {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
 		mapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
-		mapper.setDateFormat(BlitlinePostback.BLITLINE_DATE_FORMAT);
 	}
 
 	/**
