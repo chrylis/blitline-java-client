@@ -8,7 +8,7 @@ public class PadResizeToFit extends AbstractFunction {
 
 	@Override
 	public String getName() {
-		return "pad";
+		return "pad_resize_to_fit";
 	}
 
 	public PadResizeToFit(int width, int height) {
